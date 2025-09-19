@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loca DJ - Aluguel de Equipamentos Profissionais</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .hero-section {
+      background:
+              url('https://img.freepik.com/fotos-gratis/estilo-de-vida-de-festa-techno_52683-122049.jpg?semt=ais_hybrid&w=740');
+      background-size: cover;
+      background-position: center;
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+<header class="bg-indigo-600 text-white shadow-lg">
+  <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+    <div class="flex items-center">
+      <i class="fas fa-headphones text-2xl mr-2"></i>
+      <h1 class="text-2xl font-bold">Loca DJ</h1>
+    </div>
+    <div class="flex items-center space-x-4">
+      <a href="/login" class="bg-white text-indigo-600 px-4 py-2 rounded-md font-medium hover:bg-indigo-50 transition-colors">
+        <i class="fas fa-sign-in-alt mr-1"></i> Login
+      </a>
+      <a href="/users/register" class="hidden md:inline-block text-white hover:underline">
+        Registrar
+      </a>
+    </div>
+  </div>
+</header>
+
+
+
+<footer class="bg-gray-800 text-white py-12">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div>
+        <div class="flex items-center mb-4">
+          <i class="fas fa-headphones text-2xl mr-2 text-indigo-400"></i>
+          <h3 class="text-xl font-bold">Loca DJ</h3>
+        </div>
+        <p class="text-gray-400">Sua melhor opção em aluguel de equipamentos para eventos.</p>
+      </div>
+      <div>
+        <h4 class="text-lg font-semibold mb-4">Contato</h4>
+        <ul class="space-y-2 text-gray-400">
+          <li class="flex items-center"><i class="fas fa-map-marker-alt mr-2"></i> Fortaleza, CE</li>
+          <li class="flex items-center"><i class="fas fa-phone-alt mr-2"></i> (85) 99999-9999</li>
+          <li class="flex items-center"><i class="fas fa-envelope mr-2"></i> contato@locadj.com</li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-lg font-semibold mb-4">Redes Sociais</h4>
+        <div class="flex space-x-4">
+          <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-facebook"></i></a>
+          <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+      <p>&copy; <span th:text="${#temporals.year(#temporals.createToday())}"></span> Loca DJ. Todos os direitos reservados.</p>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
