@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - Loca DJ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 2rem;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+<div class="min-h-screen">
+    <header class="bg-indigo-600 text-white shadow-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold flex items-center">
+                <i class="fas fa-headphones mr-2"></i> Loca DJ - Admin
+            </h1>
+            <div>
+                <span class="hidden md:inline mr-4">Admin: <span th:text="${#authentication.principal.username}"></span></span>
+                <form th:action="@{/logout}" method="post" class="inline">
+                    <button type="submit" class="bg-white text-indigo-600 px-4 py-2 rounded-md font-medium hover:bg-gray-100 transition-colors">
+                        <i class="fas fa-sign-out-alt mr-1"></i> Sair
+                    </button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <section class="mb-10 bg-white rounded-lg shadow-sm p-6 border border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-semibold text-gray-800">Painel de Administração</h2>
+                    <p class="text-gray-600 mt-2">Gerencie usuários, kits e reservas do sistema</p>
+                </div>
+                <div class="bg-indigo-50 text-indigo-600 p-3 rounded-full">
+                    <i class="fas fa-user-shield text-3xl"></i>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-10">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+                <i class="fas fa-chart-line mr-2 text-indigo-500"></i> Estatísticas Rápidas
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500">Total de Usuários</p>
+                            <h3 class="text-2xl font-bold text-gray-800" th:text="${userCount}">0</h3>
+                        </div>
+                        <div class="bg-indigo-100 text-indigo-600 p-3 rounded-full">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500">Kits Disponíveis</p>
+                            <h3 class="text-2xl font-bold text-gray-800" th:text="${availableKitsCount}">0</h3>
+                        </div>
+                        <div class="bg-green-100 text-green-600 p-3 rounded-full">
+                            <i class="fas fa-box-open"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500">Reservas Ativas</p>
+                            <h3 class="text-2xl font-bold text-gray-800" th:text="${activeReservationsCount}">0</h3>
+                        </div>
+                        <div class="bg-blue-100 text-blue-600 p-3 rounded-full">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-calendar-alt mr-2 text-indigo-500"></i> Reservas por Mês
+                </h3>
+                <div class="chart-container">
+                    <canvas id="reservationsChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-chart-pie mr-2 text-indigo-500"></i> Kits Mais Alugados
+                </h3>
+                <div class="chart-container">
+                    <canvas id="topKitsChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100 hover:shadow-md transition-shadow">
+                <div class="p-6">
+                    <div class="flex items-center">
+                        <div class="bg-indigo-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-users text-indigo-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-800">Usuários</h3>
+                            <p class="text-gray-500 text-sm">Lista de clientes e administradores</p>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <a th:href="@{/users}" class="w-full bg-indigo-600 text-white px-4 py-2 rounded-md font-medium hover:bg-indigo-700 transition-colors inline-flex items-center justify-center">
+                            <i class="fas fa-list mr-2"></i> Gerenciar Usuários
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100 hover:shadow-md transition-shadow">
+                <div class="p-6">
+                    <div class="flex items-center">
+                        <div class="bg-green-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-box-open text-green-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-800">Kits</h3>
+                            <p class="text-gray-500 text-sm">Adicione, edite ou remova kits disponíveis</p>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <a th:href="@{/kits}" class="w-full bg-green-600 text-white px-4 py-2 rounded-md font-medium hover:bg-green-700 transition-colors inline-flex items-center justify-center">
+                            <i class="fas fa-tools mr-2"></i> Gerenciar Kits
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100 hover:shadow-md transition-shadow">
+                <div class="p-6">
+                    <div class="flex items-center">
+                        <div class="bg-blue-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-calendar-alt text-blue-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-800">Reservas</h3>
+                            <p class="text-gray-500 text-sm">Visualize todas as reservas</p>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <a th:href="@{/reservations}" class="w-full bg-blue-600 text-white px-4 py-2 rounded-md font-medium hover:bg-blue-700 transition-colors inline-flex items-center justify-center">
+                            <i class="fas fa-calendar-check mr-2"></i> Gerenciar Reservas
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-gray-200 mt-12">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-lg font-semibold text-gray-800 flex items-center">
+                        <i class="fas fa-headphones mr-2 text-indigo-600"></i> Loca DJ - Admin
+                    </h3>
+                    <p class="text-gray-500 text-sm mt-1">Painel de Administração</p>
+                </div>
+                <div class="text-sm text-gray-500">
+                    &copy; <span th:text="${#temporals.year(#temporals.createToday())}"></span> Loca DJ. Todos os direitos reservados.
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Cores para os gráficos
+    const colorPalette = [
+        'rgba(79, 70, 229, 0.8)',  // Indigo
+        'rgba(16, 185, 129, 0.8)', // Green
+        'rgba(59, 130, 246, 0.8)', // Blue
+        'rgba(245, 158, 11, 0.8)', // Amber
+        'rgba(236, 72, 153, 0.8)', // Pink
+        'rgba(139, 92, 246, 0.8)'  // Purple
+    ];
+
+    // Função para traduzir meses
+    function translateMonth(month) {
+        const months = {
+            'JANUARY': 'Janeiro',
+            'FEBRUARY': 'Fevereiro',
+            'MARCH': 'Março',
+            'APRIL': 'Abril',
+            'MAY': 'Maio',
+            'JUNE': 'Junho',
+            'JULY': 'Julho',
+            'AUGUST': 'Agosto',
+            'SEPTEMBER': 'Setembro',
+            'OCTOBER': 'Outubro',
+            'NOVEMBER': 'Novembro',
+            'DECEMBER': 'Dezembro'
+        };
+        return months[month] || month;
+    }
+
+    // Tratamento de erro para fetch
+    async function fetchData(url) {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`Erro na API: ${response.status}`);
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Erro ao buscar dados:', error);
+            return null;
+        }
+    }
+
+    // Inicializar gráficos quando a página carregar
+    document.addEventListener('DOMContentLoaded', async function() {
+        // Reservas por mês
+        const reservationsData = await fetchData('/api/dashboard/reservations-per-month');
+        if (reservationsData) {
+            const translatedMonths = reservationsData.months.map(translateMonth);
+
+            new Chart(document.getElementById('reservationsChart'), {
+                type: 'bar',
+                data: {
+                    labels: translatedMonths,
+                    datasets: [{
+                        label: 'Número de Reservas',
+                        data: reservationsData.reservations,
+                        backgroundColor: colorPalette[0],
+                        borderColor: 'rgba(79, 70, 229, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    }
+                }
+            });
+        } else {
+            document.getElementById('reservationsChart').closest('.chart-container').innerHTML =
+                '<div class="h-full flex items-center justify-center text-red-500"><p>Erro ao carregar dados das reservas</p></div>';
+        }
+
+        // Top kits
+        const topKitsData = await fetchData('/api/dashboard/top-kits');
+        if (topKitsData) {
+            new Chart(document.getElementById('topKitsChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: topKitsData.kits,
+                    datasets: [{
+                        label: 'Número de Aluguéis',
+                        data: topKitsData.reservations,
+                        backgroundColor: colorPalette,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                boxWidth: 15
+                            }
+                        }
+                    }
+                }
+            });
+        } else {
+            document.getElementById('topKitsChart').closest('.chart-container').innerHTML =
+                '<div class="h-full flex items-center justify-center text-red-500"><p>Erro ao carregar dados dos kits</p></div>';
+        }
+    });
+</script>
+</body>
+</html>
