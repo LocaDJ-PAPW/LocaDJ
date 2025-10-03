@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Cliente - Loca DJ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+<div class="min-h-screen">
+  <header class="bg-indigo-600 text-white shadow-md">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold flex items-center">
+        <i class="fas fa-headphones mr-2"></i> Loca DJ
+      </h1>
+      <div>
+        <span class="hidden md:inline mr-4">Olá, <span th:text="${#authentication.principal.username}"></span></span>
+        <form th:action="@{/logout}" method="post" class="inline">
+          <button type="submit" class="bg-white text-indigo-600 px-4 py-2 rounded-md font-medium hover:bg-gray-100 transition-colors">
+            <i class="fas fa-sign-out-alt mr-1"></i> Sair
+          </button>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-8">
+    <section class="mb-10 bg-white rounded-lg shadow-sm p-6 border border-gray-100">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-2xl font-semibold text-gray-800">Bem-vindo ao seu Dashboard</h2>
+          <p class="text-gray-600 mt-2">Gerencie suas reservas e explore nossos kits disponíveis</p>
+        </div>
+        <div class="bg-indigo-50 text-indigo-600 p-3 rounded-full">
+          <i class="fas fa-user-circle text-3xl"></i>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-10">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-semibold text-gray-800">
+          <i class="fas fa-box-open mr-2 text-indigo-500"></i> Catálogo de Kits
+        </h2>
+        <div class="text-sm text-gray-500">
+          <span th:text="${kits.size()}"></span> kits disponíveis
+        </div>
+      </div>
+
+      <div class="mb-6 flex flex-wrap gap-3">
+        <button class="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium hover:bg-indigo-200 transition-colors">
+          Todos
+        </button>
+        <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors">
+          Mais populares
+        </button>
+        <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors">
+          Melhor avaliação
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div th:each="kit : ${kits}" class="kit-card bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 hover:border-indigo-200">
+          <div class="h-48 bg-gray-200 relative overflow-hidden">
+            <img th:src="${kit.imageUrl != null} ? ${kit.imageUrl} : '/images/default-kit.jpg'"
+                 alt="Kit DJ"
+                 class="w-full h-full object-cover">
+            <span th:if="${kit.quantity > 0}"
+                  class="absolute top-2 right-2 px-2 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">
+              Disponível
+            </span>
+            <span th:unless="${kit.quantity > 0}"
+                  class="absolute top-2 right-2 px-2 py-1 bg-red-100 text-red-800 text-xs font-semibold rounded-full">
+              Esgotado
+            </span>
+          </div>
+
+          <div class="p-4">
+            <div class="flex justify-between items-start">
+              <h3 class="font-semibold text-lg text-gray-800" th:text="${kit.name}"></h3>
+              <span class="bg-indigo-100 text-indigo-800 px-2 py-1 rounded text-sm font-medium">
+                <span th:text="${'R$ ' + #numbers.formatDecimal(kit.pricePerDay, 1, 2, 'POINT')}"></span>/dia
+              </span>
+            </div>
+
+            <p class="text-gray-600 text-sm mt-2 line-clamp-2" th:text="${kit.description}"></p>
+
+            <div class="mt-4 flex justify-between items-center">
+              <div class="text-sm text-gray-500">
+                <i class="fas fa-box mr-1"></i>
+                <span th:text="${kit.quantity} + ' disponíveis'"></span>
+              </div>
+
+              <a th:href="@{/reservations/new(kitId=${kit.id})}"
+                 class="text-white bg-indigo-600 px-3 py-1 rounded-md text-sm font-medium hover:bg-indigo-700 transition-colors inline-flex items-center"
+                 th:classappend="${kit.quantity == 0} ? 'opacity-50 cursor-not-allowed' : ''"
+                 th:attr="disabled=${kit.quantity == 0} ? 'disabled' : null">
+                <i class="fas fa-calendar-plus mr-1"></i> Reservar
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl font-semibold text-gray-800">
+          <i class="fas fa-calendar-check mr-2 text-indigo-500"></i> Minhas Reservas
+        </h2>
+      </div>
+
+      <div th:if="${#lists.isEmpty(reservations)}" class="bg-white rounded-lg shadow-sm p-8 text-center border border-gray-100">
+        <i class="fas fa-calendar-times text-4xl text-gray-300 mb-4"></i>
+        <h3 class="text-lg font-medium text-gray-700">Nenhuma reserva encontrada</h3>
+        <p class="text-gray-500 mt-1">Você ainda não fez nenhuma reserva. Explore nossos kits acima.</p>
+      </div>
+
+      <div th:if="${!#lists.isEmpty(reservations)}" class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100">
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kit</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Início</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fim</th>
+              <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
+            </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+            <tr th:each="res : ${reservations}" class="hover:bg-gray-50 transition-colors">
+              <td class="px-6 py-4">
+                <div class="font-medium text-gray-900" th:text="${res.kit.name}"></div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-gray-900" th:text="${#temporals.format(res.startDateTime, 'dd/MM/yyyy HH:mm')}"></div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-gray-900" th:text="${#temporals.format(res.endDateTime, 'dd/MM/yyyy HH:mm')}"></div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right">
+                <a th:href="@{/reservations/client/cancel/{id}(id=${res.id})}"
+                   class="text-white bg-red-600 px-3 py-1 rounded-md text-sm font-medium hover:bg-red-700 transition-colors inline-flex items-center"
+                   onclick="return confirm('Tem certeza que deseja cancelar esta reserva?');">
+                  <i class="fas fa-times-circle mr-1"></i> Cancelar
+                </a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-white border-t border-gray-200 mt-12">
+    <div class="container mx-auto px-4 py-6">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-4 md:mb-0">
+          <h3 class="text-lg font-semibold text-gray-800 flex items-center">
+            <i class="fas fa-headphones mr-2 text-indigo-600"></i> Loca DJ
+          </h3>
+          <p class="text-gray-500 text-sm mt-1">Sua melhor opção em equipamentos de DJ</p>
+        </div>
+        <div class="text-sm text-gray-500">
+          &copy; <span th:text="${#temporals.year(#temporals.createToday())}"></span> Loca DJ. Todos os direitos reservados.
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const cancelButtons = document.querySelectorAll('a[onclick*="confirm"]');
+    cancelButtons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        if (!confirm(this.getAttribute('data-confirm') || 'Tem certeza que deseja realizar esta ação?')) {
+          e.preventDefault();
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>
