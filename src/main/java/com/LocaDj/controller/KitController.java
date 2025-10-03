@@ -19,19 +19,19 @@ public class KitController {
     @GetMapping
     public String listKits(Model model) {
         model.addAttribute("kits", kitService.findAll());
-        return "kits/list";
+        return "kits/lista";
     }
 
     @GetMapping("/new")
     public String showNewKitForm(Model model) {
         model.addAttribute("kit", new Kit());
-        return "kits/form";
+        return "kits/formulario";
     }
 
     @PostMapping("/save")
     public String saveKit(@Valid @ModelAttribute("kit") Kit kit, BindingResult result) {
         if (result.hasErrors()) {
-            return "kits/form";
+            return "kits/formulario";
         }
         kitService.save(kit);
         return "redirect:/kits";
@@ -41,7 +41,7 @@ public class KitController {
     public String showEditForm(@PathVariable("id") Long id, Model model) {
         Kit kit = kitService.findById(id).orElseThrow(() -> new IllegalArgumentException("Kit inválido: " + id));
         model.addAttribute("kit", kit);
-        return "kits/form";
+        return "kits/formulario";
     }
 
     @GetMapping("/delete/{id}")
