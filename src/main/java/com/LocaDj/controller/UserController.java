@@ -1,6 +1,5 @@
 package com.LocaDj.controller;
 
-
 import com.LocaDj.models.User;
 import com.LocaDj.services.UserService;
 import jakarta.validation.Valid;
@@ -11,38 +10,38 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/usuarios")
-public class UserController {
+@RequestMapping("/users")
+public class                                                    UserController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping("/registrar")
+    @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("user", new User());
-        return "usuarios/registrar";
+        return "users/register";
     }
 
-    @PostMapping("/registrar")
+    @PostMapping("/register")
     public String registerUser(@Valid @ModelAttribute("user") User user,
                                BindingResult result,
                                Model model) {
         if (result.hasErrors()) {
-            return "usuarios/registrar";
+            return "users/register";
         }
         if (userService.findByEmail(user.getEmail()).isPresent()) {
             model.addAttribute("emailError", "Email já cadastrado");
-            return "usuario/registrar";
+            return "users/register";
         }
         user.setRole(User.Role.CLIENT);
         userService.saveUser(user);
-        return "redirect:/login?registrado";
+        return "redirect:/login?registered";
     }
 
 
     @GetMapping
     public String listUsers(Model model) {
         model.addAttribute("users", userService.listAll());
-        return "usuarios/lista";
+        return "users/list";
     }
 }
