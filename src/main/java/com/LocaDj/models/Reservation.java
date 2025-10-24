@@ -30,4 +30,9 @@ public class Reservation {
 
     @NotNull
     private LocalDateTime endDateTime;
+
+    private int daily;
+
+    private double totalAmount;
+
 }
