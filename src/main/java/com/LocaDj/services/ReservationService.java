@@ -24,6 +24,8 @@ public class ReservationService {
     }
 
     public Reservation save(@Valid Reservation reservation) {
+        Kit kit = reservation.getKit();
+        kit.setQuantity(kit.getQuantity() - 1);
         return reservationRepository.save(reservation);
     }
 
@@ -39,6 +41,9 @@ public class ReservationService {
     }
 
     public void deleteById(Long id) {
+        Reservation reservation = reservationRepository.getReferenceById(id);
+        Kit kit = reservation.getKit();
+        kit.setQuantity(kit.getQuantity() + 1);
         reservationRepository.deleteById(id);
     }
 
