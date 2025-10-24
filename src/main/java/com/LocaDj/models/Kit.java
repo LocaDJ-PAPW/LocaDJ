@@ -4,9 +4,13 @@ package com.LocaDj.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "kits")
+@Getter
+@Setter
 public class Kit {
 
     @Id
@@ -25,51 +29,6 @@ public class Kit {
 
     private int quantity;
 
-    public Long getId() {
-        return id;
-    }
+    private boolean availability = quantity > 0;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public double getPricePerDay() {
-        return pricePerDay;
-    }
-
-    public void setPricePerDay(double pricePerDay) {
-        this.pricePerDay = pricePerDay;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
 }

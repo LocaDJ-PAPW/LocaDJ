@@ -31,7 +31,8 @@ public class Reservation {
     @NotNull
     private LocalDateTime endDateTime;
 
-    public User getUser() {
-        return user;
-    }
+    private int daily;
+
+    private double totalAmount;
+
 }
