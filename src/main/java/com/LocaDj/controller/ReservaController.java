@@ -33,6 +33,7 @@ public class ReservaController {
 
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
 
+
     @GetMapping("/new")
     public String showReservationForm(@RequestParam(required = false) Long kitId, Model model) {
         ReservationFormDTO form = new ReservationFormDTO();
@@ -91,6 +92,7 @@ public class ReservaController {
         reservation.setUser(user);
         reservation.setStartDateTime(startDateTime);
         reservation.setEndDateTime(endDateTime);
+        reservation.setStatus(Status.CONFIRMADA);
 
         reservationService.save(reservation);
 
