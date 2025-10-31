@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Kits - Loca DJ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+<div class="min-h-screen">
+
+  <header class="bg-indigo-600 text-white shadow-md">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold flex items-center">
+        <i class="fas fa-headphones mr-2"></i> Loca DJ - Kits
+      </h1>
+      <nav>
+        <a th:href="@{/admin/dashboard}" class="text-white hover:text-gray-200 mr-4">
+          <i class="fas fa-arrow-left mr-1"></i> Voltar
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-4 py-8">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-800">Lista de Kits</h1>
+        <p class="text-gray-600 mt-1">Gerencie todos os kits disponíveis para locação</p>
+      </div>
+      <a th:href="@{/kits/new}" class="mt-4 sm:mt-0 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors inline-flex items-center">
+        <i class="fas fa-plus mr-2"></i> Adicionar Kit
+      </a>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100">
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nome</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descrição</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Preço/Dia</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantidade</th>
+            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
+          </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+          <tr th:each="kit : ${kits}" class="hover:bg-gray-50 transition-colors">
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="font-medium text-gray-900" th:text="${kit.name}"></div>
+            </td>
+            <td class="px-6 py-4">
+              <div class="text-gray-600 text-sm line-clamp-2" th:text="${kit.description}"></div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="text-gray-900 font-medium" th:text="'R$ ' + ${#numbers.formatDecimal(kit.pricePerDay, 1, 2, 'POINT')}"></div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+                  <span th:if="${kit.quantity > 0}" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                    <span th:text="${kit.quantity}"></span> disponíveis
+                  </span>
+              <span th:unless="${kit.quantity > 0}" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                    Esgotado
+                  </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-right">
+              <div class="flex justify-end space-x-2">
+                <a th:href="@{/kits/edit/{id}(id=${kit.id})}"
+                   class="text-white bg-blue-600 px-3 py-1 rounded-md text-sm font-medium hover:bg-blue-700 transition-colors inline-flex items-center">
+                  <i class="fas fa-edit mr-1"></i> Editar
+                </a>
+                <a th:href="@{/kits/delete/{id}(id=${kit.id})}"
+                   class="text-white bg-red-600 px-3 py-1 rounded-md text-sm font-medium hover:bg-red-700 transition-colors inline-flex items-center"
+                   onclick="return confirm('Tem certeza que deseja excluir este kit? Esta ação não pode ser desfeita.');">
+                  <i class="fas fa-trash-alt mr-1"></i> Excluir
+                </a>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div th:if="${#lists.isEmpty(kits)}" class="bg-white rounded-lg shadow-sm p-8 text-center border border-gray-100 mt-6">
+      <i class="fas fa-box-open text-4xl text-gray-300 mb-4"></i>
+      <h3 class="text-lg font-medium text-gray-700">Nenhum kit cadastrado</h3>
+      <p class="text-gray-500 mt-2">Você ainda não cadastrou nenhum kit. Clique no botão abaixo para adicionar o primeiro.</p>
+      <a th:href="@{/kits/new}" class="mt-4 inline-block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors">
+        <i class="fas fa-plus mr-1"></i> Adicionar Kit
+      </a>
+    </div>
+  </main>
+
+  <footer class="bg-white border-t border-gray-200 mt-12">
+    <div class="container mx-auto px-4 py-6">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-4 md:mb-0">
+          <h3 class="text-lg font-semibold text-gray-800 flex items-center">
+            <i class="fas fa-headphones mr-2 text-indigo-600"></i> Loca DJ
+          </h3>
+          <p class="text-gray-500 text-sm mt-1">Sistema de Gerenciamento de Kits</p>
+        </div>
+        <div class="text-sm text-gray-500">
+          &copy; <span th:text="${#temporals.year(#temporals.createToday())}"></span>  loca DJ. Todos os direitos reservados.
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const deleteButtons = document.querySelectorAll('a[onclick*="confirm"]');
+    deleteButtons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        if (!confirm(this.getAttribute('data-confirm') || 'Tem certeza que deseja excluir este kit?')) {
+          e.preventDefault();
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>
