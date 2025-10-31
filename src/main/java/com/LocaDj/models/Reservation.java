@@ -35,4 +35,6 @@ public class Reservation {
 
     private double totalAmount;
 
+    private Status status;
+
 }
