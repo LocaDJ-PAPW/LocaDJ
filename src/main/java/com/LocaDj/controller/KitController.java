@@ -19,7 +19,7 @@ public class KitController {
     @GetMapping
     public String listKits(Model model) {
         model.addAttribute("kits", kitService.findAll());
-        return "kits/lista";
+        return "kits/list";
     }
 
     @GetMapping("/new")

@@ -229,27 +229,28 @@
 
         const reservationsChartElement = document.getElementById('reservationsChart');
         if (reservationsData && Array.isArray(reservationsData.months) && Array.isArray(reservationsData.reservations)) {
-            const translatedMonths = reservationsData.months.map(translateMonth);
+            const translatedMonths = reservationsData.months.map(translateMonth).reverse();
+            const reversedReservations = reservationsData.reservations.slice().reverse();
 
-            new Chart(reservationsChartElement, {
-                type: 'bar',
-                data: {
-                    labels: translatedMonths,
-                    datasets: [{
-                        label: 'Número de Reservas',
-                        data: reservationsData.reservations,
-                        backgroundColor: colorPalette[0],
-                        borderColor: 'rgba(79, 70, 229, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
-                }
-            });
+           new Chart(reservationsChartElement, {
+    type: 'bar',
+    data: {
+        labels: translatedMonths,
+        datasets: [{
+            label: 'Número de Reservas',
+            data: reversedReservations,
+            backgroundColor: colorPalette[0],
+            borderColor: 'rgba(79, 70, 229, 1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+    }
+});
         } else {
             // Exibe mensagem de erro se os dados não vieram ou vieram incorretos
             reservationsChartElement.closest('.chart-container').innerHTML =
