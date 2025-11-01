@@ -32,4 +32,8 @@ public class UserService {
     public List<User> listAll() {
         return userRepository.findAll();
     }
+
+    public int userCount(){
+        return userRepository.findAll().size();
+    }
 }

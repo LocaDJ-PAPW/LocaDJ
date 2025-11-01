@@ -124,7 +124,7 @@
                         </div>
                     </div>
                     <div class="mt-6">
-                        <a th:href="@{/users}" class="w-full bg-indigo-600 text-white px-4 py-2 rounded-md font-medium hover:bg-indigo-700 transition-colors inline-flex items-center justify-center">
+                        <a th:href="@{/users}" class="w-full bg-indigo-600 text-white px-4 py-2 rounded-md font-medium hover:bg-indigo-700 transition-colors inline-flex items-center justify-content">
                             <i class="fas fa-list mr-2"></i> Gerenciar Usuários
                         </a>
                     </div>
@@ -143,7 +143,7 @@
                         </div>
                     </div>
                     <div class="mt-6">
-                        <a th:href="@{/kits}" class="w-full bg-green-600 text-white px-4 py-2 rounded-md font-medium hover:bg-green-700 transition-colors inline-flex items-center justify-center">
+                        <a th:href="@{/kits}" class="w-full bg-green-600 text-white px-4 py-2 rounded-md font-medium hover:bg-green-700 transition-colors inline-flex items-center justify-content">
                             <i class="fas fa-tools mr-2"></i> Gerenciar Kits
                         </a>
                     </div>
@@ -162,7 +162,7 @@
                         </div>
                     </div>
                     <div class="mt-6">
-                        <a th:href="@{/reservations}" class="w-full bg-blue-600 text-white px-4 py-2 rounded-md font-medium hover:bg-blue-700 transition-colors inline-flex items-center justify-center">
+                        <a th:href="@{/reservations}" class="w-full bg-blue-600 text-white px-4 py-2 rounded-md font-medium hover:bg-blue-700 transition-colors inline-flex items-center justify-content">
                             <i class="fas fa-calendar-check mr-2"></i> Gerenciar Reservas
                         </a>
                     </div>
@@ -189,7 +189,11 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
+<script th:inline="javascript">
+
+    const reservationsData = /*[[${reservationsData}]]*/ null;
+    const topKitsData = /*[[${topKitsData}]]*/ null;
+
     // Cores para os gráficos
     const colorPalette = [
         'rgba(79, 70, 229, 0.8)',  // Indigo
@@ -219,28 +223,15 @@
         return months[month] || month;
     }
 
-    // Tratamento de erro para fetch
-    async function fetchData(url) {
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error(`Erro na API: ${response.status}`);
-            }
-            return await response.json();
-        } catch (error) {
-            console.error('Erro ao buscar dados:', error);
-            return null;
-        }
-    }
-
     // Inicializar gráficos quando a página carregar
-    document.addEventListener('DOMContentLoaded', async function() {
-        // Reservas por mês
-        const reservationsData = await fetchData('/api/dashboard/reservations-per-month');
-        if (reservationsData) {
+    document.addEventListener('DOMContentLoaded', function() {
+
+
+        const reservationsChartElement = document.getElementById('reservationsChart');
+        if (reservationsData && Array.isArray(reservationsData.months) && Array.isArray(reservationsData.reservations)) {
             const translatedMonths = reservationsData.months.map(translateMonth);
 
-            new Chart(document.getElementById('reservationsChart'), {
+            new Chart(reservationsChartElement, {
                 type: 'bar',
                 data: {
                     labels: translatedMonths,
@@ -255,33 +246,20 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        title: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                precision: 0
-                            }
-                        }
-                    }
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
                 }
             });
         } else {
-            document.getElementById('reservationsChart').closest('.chart-container').innerHTML =
+            // Exibe mensagem de erro se os dados não vieram ou vieram incorretos
+            reservationsChartElement.closest('.chart-container').innerHTML =
                 '<div class="h-full flex items-center justify-center text-red-500"><p>Erro ao carregar dados das reservas</p></div>';
         }
 
-        // Top kits
-        const topKitsData = await fetchData('/api/dashboard/top-kits');
-        if (topKitsData) {
-            new Chart(document.getElementById('topKitsChart'), {
+        // --- 2. Kits Mais Alugados ---
+        const topKitsChartElement = document.getElementById('topKitsChart');
+        if (topKitsData && Array.isArray(topKitsData.kits) && Array.isArray(topKitsData.reservations)) {
+            new Chart(topKitsChartElement, {
                 type: 'doughnut',
                 data: {
                     labels: topKitsData.kits,
@@ -298,15 +276,14 @@
                     plugins: {
                         legend: {
                             position: 'right',
-                            labels: {
-                                boxWidth: 15
-                            }
+                            labels: { boxWidth: 15 }
                         }
                     }
                 }
             });
         } else {
-            document.getElementById('topKitsChart').closest('.chart-container').innerHTML =
+            // Exibe mensagem de erro se os dados não vieram ou vieram incorretos
+            topKitsChartElement.closest('.chart-container').innerHTML =
                 '<div class="h-full flex items-center justify-center text-red-500"><p>Erro ao carregar dados dos kits</p></div>';
         }
     });

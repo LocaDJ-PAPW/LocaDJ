@@ -9,8 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
@@ -65,5 +64,36 @@ public class ReservationService {
         return (int) Math.ceil(days);
 
 
+    }
+
+    public int activeReservations(){
+        return reservationRepository.countByStatus(Status.CONFIRMADA);
+
+    }
+
+    public Map<String, Object> getReservationsPerMonthData() {
+
+        List<Object[]> results = reservationRepository.countReservationsPerMonth();
+
+        List<String> months = new ArrayList<>();
+        List<Long> reservations = new ArrayList<>();
+
+
+        for (Object[] result : results) {
+            Integer year = (Integer) result[0];
+            Integer month = (Integer) result[1];
+            Long count = (Long) result[2];
+
+
+            String monthName = java.time.Month.of(month).name();
+            months.add(monthName + " " + year);
+            reservations.add(count);
+        }
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("months", months);
+        data.put("reservations", reservations);
+
+        return data;
     }
 }
