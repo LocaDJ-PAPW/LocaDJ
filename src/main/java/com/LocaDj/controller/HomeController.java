@@ -21,7 +21,7 @@ public class HomeController {
             if (user != null) {
                 return switch (user.getRole()) {
                     case ADMIN -> "redirect:/admin/dashboard";
-                    case CLIENT -> "redirect:/client/dashboard";
+                    case CLIENT -> "redirect:/reservation/client/dashboard";
                 };
             }
         }

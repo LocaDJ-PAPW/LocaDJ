@@ -12,14 +12,15 @@ import org.springframework.ui.Model;
 @Controller
 public class AdminController {
 
-    @Autowired
-    private UserService userService;
+
+    private final UserService userService;
 
     private final KitService kitService;
 
     private final ReservationService reservationService;
 
-    public AdminController(KitService kitService, ReservationService reservationService) {
+    public AdminController(UserService userService, KitService kitService, ReservationService reservationService) {
+        this.userService = userService;
         this.kitService = kitService;
         this.reservationService = reservationService;
     }
