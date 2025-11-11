@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -92,12 +93,13 @@ public class ReservaController {
         reservation.setUser(user);
         reservation.setStartDateTime(startDateTime);
         reservation.setEndDateTime(endDateTime);
-        reservation.setStatus(Status.CONFIRMADA);
 
-        reservationService.save(reservation);
 
-        redirectAttributes.addFlashAttribute("successMessage", "Reserva realizada com sucesso!");
-        return "redirect:/reservations/client/dashboard";
+        Reservation createdReservation = reservationService.save(reservation);
+        model.addAttribute("ReservationId", createdReservation.getId());
+
+
+        return "checkout/checkout";
     }
 
     @GetMapping("/client/dashboard")

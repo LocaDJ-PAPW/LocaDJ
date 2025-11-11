@@ -25,9 +25,9 @@ public class ReservationService {
 
     public Reservation save(@Valid Reservation reservation) {
         Kit kit = reservation.getKit();
-        kit.setQuantity(kit.getQuantity() - 1);
         reservation.setDaily(Days(reservation.getStartDateTime(), reservation.getEndDateTime()));
         reservation.setTotalAmount(reservation.getDaily() * kit.getPricePerDay());
+        reservation.setStatus(Status.PENDENTE);
         return reservationRepository.save(reservation);
     }
 
@@ -45,7 +45,6 @@ public class ReservationService {
     public void deleteById(Long id) {
         Reservation reservation = reservationRepository.getReferenceById(id);
         Kit kit = reservation.getKit();
-        kit.setQuantity(kit.getQuantity() + 1);
         reservationRepository.deleteById(id);
     }
 
@@ -64,6 +63,10 @@ public class ReservationService {
         return (int) Math.ceil(days);
 
 
+    }
+
+    public void confirmReservation(Reservation reservation){
+        reservation.setStatus(Status.CONFIRMADA);
     }
 
     public int activeReservations(){

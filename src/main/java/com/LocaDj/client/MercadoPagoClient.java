@@ -4,6 +4,8 @@ import com.LocaDj.DTOs.CreatePreferenceRequestDTO;
 import com.LocaDj.DTOs.CreateResponseDTO;
 import com.LocaDj.models.Payer;
 import com.LocaDj.models.PaymentEntity;
+import com.LocaDj.models.Reservation;
+import com.LocaDj.services.ReservationService;
 import com.mercadopago.MercadoPagoConfig;
 import com.mercadopago.client.payment.PaymentClient;
 import com.mercadopago.client.preference.*;
@@ -15,6 +17,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -24,6 +27,7 @@ import java.util.List;
 @Slf4j
 public class MercadoPagoClient {
 
+    private final ReservationService reservationService;
     @Value("${api.v1.mercadopago-access-token}")
     private String accessToken;
 
@@ -129,6 +133,12 @@ public class MercadoPagoClient {
                             .build())
                     .build();
         }
+
+        Reservation reservation = reservationService.findById(Long.valueOf(paymentMercadoPago.getExternalReference()))
+                .orElseThrow(() -> new UsernameNotFoundException("Reserva não encontrada!"));
+
+        reservationService.confirmReservation(reservation);
+
 
         return PaymentEntity.builder()
                 .id(paymentMercadoPago.getId().toString())

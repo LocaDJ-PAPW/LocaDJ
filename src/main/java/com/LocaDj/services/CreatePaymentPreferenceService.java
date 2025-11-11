@@ -17,10 +17,10 @@ public class CreatePaymentPreferenceService {
 
 
 
-    public CreateResponseDTO createPrefernce(CreatePreferenceRequestDTO inputData){
+    public CreateResponseDTO createPrefernce(CreatePreferenceRequestDTO inputData, String orderNumber){
         log.info("Creating payment preference with request: {}", inputData);
 
-        String orderNumber = "123456";
+
 
         try{
             return mercadoPagoClient.createPreference(inputData, orderNumber);
