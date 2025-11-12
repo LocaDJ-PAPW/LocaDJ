@@ -65,8 +65,10 @@ public class ReservationService {
 
     }
 
-    public void confirmReservation(Reservation reservation){
+    public void confirmReservation(long reservationId){
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new RuntimeException("Reserva não encontrado!"));
         reservation.setStatus(Status.CONFIRMADA);
+        reservationRepository.save(reservation);
     }
 
     public int activeReservations(){
