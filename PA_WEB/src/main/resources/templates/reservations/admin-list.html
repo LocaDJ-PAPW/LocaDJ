@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reservas - Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8 max-w-7xl mx-auto">
+<h1 class="text-3xl font-bold mb-6">Todas as Reservas</h1>
+
+<table class="min-w-full bg-white shadow rounded">
+  <thead>
+  <tr class="bg-gray-200 text-left">
+    <th class="py-2 px-4">Usuário</th>
+    <th class="py-2 px-4">Kit</th>
+    <th class="py-2 px-4">Início</th>
+    <th class="py-2 px-4">Fim</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="reservation : ${reservations}" class="border-t">
+    <td class="py-2 px-4" th:text="${reservation.user.name}"></td>
+    <td class="py-2 px-4" th:text="${reservation.kit.name}"></td>
+    <td class="py-2 px-4" th:text="${#temporals.format(reservation.startDateTime, 'dd/MM/yyyy HH:mm')}"></td>
+    <td class="py-2 px-4" th:text="${#temporals.format(reservation.endDateTime, 'dd/MM/yyyy HH:mm')}"></td>
+  </tr>
+  </tbody>
+</table>
+
+<a href="/" class="mt-6 inline-block text-blue-600 hover:underline">Voltar para Home</a>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Loca DJ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .login-container {
+          background-image: linear-gradient(to bottom right, #4f46e5, #7c3aed);
+        }
+        .card {
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .input-field:focus {
+          box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+        }
+        .login-image {
+          background-image: url('https://wallery.app/dufovot/dj-audio-mixer-wallpaper.webp');
+          background-size: cover;
+          background-position: center;
+          border-radius: 0 0.5rem 0.5rem 0;
+        }
+        @media (max-width: 768px) {
+          .login-wrapper {
+            flex-direction: column;
+          }
+          .login-image {
+            display: none;
+          }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+<div class="login-container absolute inset-0"></div>
+
+<div class="w-full max-w-4xl relative">
+    <div class="flex login-wrapper bg-white rounded-lg card overflow-hidden">
+        <div class="w-full md:w-1/2 p-8">
+            <div class="flex justify-center mb-6">
+                <div class="bg-indigo-100 p-3 rounded-full">
+                    <i class="fas fa-headphones text-indigo-600 text-3xl"></i>
+                </div>
+            </div>
+
+            <h1 class="text-2xl font-bold text-center text-gray-800 mb-2">Acesse sua conta</h1>
+            <p class="text-gray-600 text-center mb-8">Entre para gerenciar suas reservas</p>
+
+            <div th:if="${param.error}" class="mb-4 p-3 bg-red-50 text-red-700 rounded-md flex items-center">
+                <i class="fas fa-exclamation-circle mr-2"></i>
+                <span>Credenciais inválidas. Por favor, tente novamente.</span>
+            </div>
+
+            <div th:if="${param.logout}" class="mb-4 p-3 bg-green-50 text-green-700 rounded-md flex items-center">
+                <i class="fas fa-check-circle mr-2"></i>
+                <span>Logout realizado com sucesso.</span>
+            </div>
+
+            <div th:if="${param.registered}" class="mb-4 p-3 bg-blue-50 text-blue-700 rounded-md flex items-center">
+                <i class="fas fa-check-circle mr-2"></i>
+                <span>Cadastro realizado com sucesso. Faça login.</span>
+            </div>
+
+            <form th:action="@{/login}" method="post" class="space-y-4">
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-envelope text-gray-400"></i>
+                        </div>
+                        <input type="email" id="username" name="username" required autocomplete="email"
+                               class="input-field w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                               placeholder="seu@email.com">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Senha</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-lock text-gray-400"></i>
+                        </div>
+                        <input type="password" id="password" name="password" required autocomplete="current-password"
+                               class="input-field w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                               placeholder="••••••••">
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input id="remember-me" name="remember-me" type="checkbox"
+                               class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                        <label for="remember-me" class="ml-2 block text-sm text-gray-700">Lembrar de mim</label>
+                    </div>
+                    <div class="text-sm">
+                        <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">Esqueceu sua senha?</a>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit"
+                            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <i class="fas fa-sign-in-alt mr-2"></i> Entrar
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-6">
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-white text-gray-500">Novo na Loca DJ?</span>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <a th:href="@{/users/register}"
+                       class="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <i class="fas fa-user-plus mr-2"></i> Criar nova conta
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="hidden md:block md:w-1/2 login-image">
+            <div class="h-full bg-black bg-opacity-20 flex items-center justify-center p-8">
+                <div class="text-white text-center">
+                    <h1 class="text-4xl font-bold mb-4">Loca DJ</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-6 text-center text-sm text-white">
+        &copy; <span th:text="${#temporals.year(#temporals.createToday())}"></span> Loca DJ. Todos os direitos reservados.
+    </div>
+</div>
+</body>
+</html>
