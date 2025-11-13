@@ -47,9 +47,10 @@ public class PaymentController {
             Reservation reservation = reservationService.findById(paymentRequestDto.getReservationId())
                     .orElseThrow(() -> new UsernameNotFoundException("Reserva não encontrada!"));
 
-            CreatePreferenceRequestDTO.PayerDTO payer = new CreatePreferenceRequestDTO.PayerDTO(loggedUser.getEmail(), loggedUser.getName() );
+            CreatePreferenceRequestDTO.PayerDTO payer = new CreatePreferenceRequestDTO.PayerDTO(loggedUser.getName(), loggedUser.getEmail() );
+            String baseUrl = "localhost:8080";
 
-            CreatePreferenceRequestDTO.BackUrlsDTO backUrlsDTO = new CreatePreferenceRequestDTO.BackUrlsDTO("/checkout/success","/checkout/failure", "/checkout/pending" );
+            CreatePreferenceRequestDTO.BackUrlsDTO backUrlsDTO = new CreatePreferenceRequestDTO.BackUrlsDTO(baseUrl+"/checkout/success",baseUrl+"/checkout/failure", baseUrl+"/checkout/pending" );
 
             CreatePreferenceRequestDTO.ItemDTO item = new CreatePreferenceRequestDTO.ItemDTO(reservation.getKit().getId().toString(),reservation.getKit().getName(), reservation.getDaily(), BigDecimal.valueOf(reservation.getKit().getPricePerDay()) );
 

@@ -7,6 +7,7 @@ import com.LocaDj.models.PaymentEntity;
 import com.LocaDj.models.Reservation;
 import com.LocaDj.services.ReservationService;
 import com.mercadopago.MercadoPagoConfig;
+import com.mercadopago.client.common.IdentificationRequest;
 import com.mercadopago.client.payment.PaymentClient;
 import com.mercadopago.client.preference.*;
 import com.mercadopago.exceptions.MPApiException;
@@ -71,12 +72,14 @@ public class MercadoPagoClient {
                     .payer(payer)
                     .backUrls(backUrlsRequest)
                     .externalReference(orderNumber)
-                    .autoReturn(inputData.autoReturn().toLowerCase()) // usa o valor do DTO
+                    .autoReturn(inputData.autoReturn().toLowerCase())
                     .build();
 
+            log.info(inputData.backUrls().success());
             Preference preference = preferenceClient.create(preferenceRequest);
 
             log.info("Preferência criada com sucesso no Mercado Pago: {} e {}", preference.getId(), preference.getInitPoint());
+
 
             return new CreateResponseDTO(
                     preference.getId(),
@@ -137,7 +140,7 @@ public class MercadoPagoClient {
         Reservation reservation = reservationService.findById(Long.valueOf(paymentMercadoPago.getExternalReference()))
                 .orElseThrow(() -> new UsernameNotFoundException("Reserva não encontrada!"));
 
-        reservationService.confirmReservation(reservation);
+        reservationService.confirmReservation(reservation.getId());
 
 
         return PaymentEntity.builder()
