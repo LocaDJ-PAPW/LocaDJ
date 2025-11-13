@@ -35,6 +35,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/v1/webhooks/mercadopago").permitAll()
                         .requestMatchers("/", "/index", "/home").permitAll()
                         .requestMatchers("/login", "/users/register").permitAll()
                         .requestMatchers(

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Finalizar Pagamento - Loca DJ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+<!-- Navbar -->
+<header class="bg-indigo-600 text-white shadow-md">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <!-- Logo + Título -->
+        <div class="flex items-center space-x-2">
+            <i class="fa-solid fa-headphones text-2xl"></i>
+            <span class="text-lg font-semibold">Loca DJ</span>
+        </div>
+
+        <!-- Usuário + Logout -->
+        <div class="flex items-center space-x-4">
+            <span th:text="${username}" class="hidden sm:inline">Olá, usuário</span>
+            <a href="/logout"
+               class="bg-white text-indigo-600 px-4 py-2 rounded-lg font-medium shadow hover:bg-gray-100 transition">
+                Sair
+            </a>
+        </div>
+    </div>
+</header>
+
+<main class="flex-grow flex flex-col items-center justify-center p-6">
+
+    <div class="bg-white rounded-lg shadow-md p-8 max-w-2xl w-full text-center">
+        <h1 class="text-2xl font-semibold text-gray-800 mb-2">Finalizar Pagamento</h1>
+        <p class="text-gray-600 mb-6">
+            Você será redirecionado para a plataforma segura do Mercado Pago para concluir seu pagamento.
+        </p>
+
+        <div class="flex flex-col items-center mb-6">
+            <img src="/imagens/mercadopago.webp"
+                 alt="Mercado Pago"
+                 class="max-w-[220px] mb-4">
+        </div>
+
+        <div id="loading-section" class="hidden flex-col items-center justify-center mt-6">
+            <div class="flex items-center text-sky-500">
+                <i class="fas fa-circle-notch fa-spin text-lg mr-2"></i>
+                <span>Preparando seu pagamento...</span>
+            </div>
+        </div>
+
+        <p class="text-xs text-gray-500 mt-4">Seus dados protegidos.</p>
+    </div>
+
+
+    <div class="w-full max-w-2xl flex justify-between mt-6 px-2">
+        <a th:href="@{/reservations/client/dashboard}"
+           class="bg-gray-600 hover:bg-gray-700 text-white px-5 py-2 rounded-md transition-colors">
+            Voltar
+        </a>
+        <button id="pay-button"
+                type="button"
+                th:data-reservation-id="${ReservationId}"
+                class="bg-sky-500 hover:bg-sky-600 text-white px-5 py-2 rounded-md transition-colors">
+            Pagar com Mercado Pago
+        </button>
+    </div>
+
+</main>
+
+<!-- Script -->
+<script>
+    const payButton = document.getElementById("pay-button");
+    const loadingSection = document.getElementById("loading-section");
+    const originalButtonText = payButton.innerHTML;
+
+    payButton.addEventListener("click", async () => {
+        payButton.disabled = true;
+        payButton.innerHTML = "Aguarde...";
+        payButton.classList.remove("bg-sky-500", "hover:bg-sky-600");
+        payButton.classList.add("bg-sky-700", "cursor-not-allowed");
+
+        loadingSection.classList.remove("hidden");
+        loadingSection.classList.add("flex");
+
+        const reservationId = payButton.dataset.reservationId;
+
+        try {
+
+            const response = await fetch("/api/v1/payments", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+
+                body: JSON.stringify({
+                    reservationId: reservationId
+                })
+            });
+
+            if (!response.ok) {
+                const err = await response.json();
+                throw new Error(err.message || "Erro ao processar pagamento");
+            }
+
+            const data = await response.json();
+            if (data.redirectUrl) {
+                window.location.href = data.redirectUrl;
+            }
+        } catch (e) {
+            alert("Erro: " + e.message);
+            console.error(e);
+            payButton.disabled = false;
+            payButton.innerHTML = originalButtonText;
+            payButton.classList.remove("bg-sky-700", "cursor-not-allowed");
+            payButton.classList.add("bg-sky-500", "hover:bg-sky-600");
+            loadingSection.classList.add("hidden");
+        }
+    });
+</script>
+
+</body>
+</html>
