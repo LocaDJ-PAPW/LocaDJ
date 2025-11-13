@@ -1,0 +1,21 @@
+Ignora arquivos e pastas desnecessários no build do Docker
+
+Pasta de build do Maven
+
+target/
+
+Arquivos e pastas do Git
+
+.git/
+.gitignore
+
+Arquivos de IDE
+
+.idea/
+*.iml
+
+Wrapper do Maven (não é necessário dentro do contêiner)
+
+.mvn/
+mvnw
+mvnw.cmd

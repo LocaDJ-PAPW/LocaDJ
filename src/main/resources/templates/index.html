@@ -1,259 +1,259 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loca DJ - Aluguel de Equipamentos Profissionais</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    .hero-section {
-      background:
-              url('https://img.freepik.com/fotos-gratis/estilo-de-vida-de-festa-techno_52683-122049.jpg?semt=ais_hybrid&w=740');
-      background-size: cover;
-      background-position: center;
-    }
-    .feature-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loca DJ - Aluguel de Equipamentos Profissionais</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero-section {
+          background:
+                  url('https://img.freepik.com/fotos-gratis/estilo-de-vida-de-festa-techno_52683-122049.jpg?semt=ais_hybrid&w=740');
+          background-size: cover;
+          background-position: center;
+        }
+        .feature-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
 
 <header class="bg-indigo-600 text-white shadow-lg">
-  <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-    <div class="flex items-center">
-      <i class="fas fa-headphones text-2xl mr-2"></i>
-      <h1 class="text-2xl font-bold">Loca DJ</h1>
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div class="flex items-center">
+            <i class="fas fa-headphones text-2xl mr-2"></i>
+            <h1 class="text-2xl font-bold">Loca DJ</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+            <a href="/login" class="bg-white text-indigo-600 px-4 py-2 rounded-md font-medium hover:bg-indigo-50 transition-colors">
+                <i class="fas fa-sign-in-alt mr-1"></i> Login
+            </a>
+            <a href="/users/register" class="hidden md:inline-block text-white hover:underline">
+                Registrar
+            </a>
+        </div>
     </div>
-    <div class="flex items-center space-x-4">
-      <a href="/login" class="bg-white text-indigo-600 px-4 py-2 rounded-md font-medium hover:bg-indigo-50 transition-colors">
-        <i class="fas fa-sign-in-alt mr-1"></i> Login
-      </a>
-      <a href="/users/register" class="hidden md:inline-block text-white hover:underline">
-        Registrar
-      </a>
-    </div>
-  </div>
 </header>
 
 <section class="hero-section text-white py-20 md:py-32">
-  <div class="container mx-auto px-4 text-center">
-    <h1 class="text-4xl md:text-5xl font-bold mb-6">Equipamentos Profissionais para Seu Evento</h1>
-    <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Alugue os melhores kits de DJ, iluminação e som para tornar seu evento inesquecível</p>
-    <div class="flex flex-col sm:flex-row justify-center gap-4">
-      <a href="/kits" class="bg-white text-indigo-600 px-6 py-3 rounded-md font-bold hover:bg-indigo-50 transition-colors text-lg">
-        <i class="fas fa-box-open mr-2"></i> Ver Kits
-      </a>
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">Equipamentos Profissionais para Seu Evento</h1>
+        <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Alugue os melhores kits de DJ, iluminação e som para tornar seu evento inesquecível</p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a href="/kits" class="bg-white text-indigo-600 px-6 py-3 rounded-md font-bold hover:bg-indigo-50 transition-colors text-lg">
+                <i class="fas fa-box-open mr-2"></i> Ver Kits
+            </a>
+        </div>
     </div>
-  </div>
 </section>
 
 <section class="py-16 bg-white">
-  <div class="container mx-auto px-4">
-    <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Por que escolher a Loca DJ?</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Por que escolher a Loca DJ?</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-      <div class="feature-card bg-gray-50 p-6 rounded-lg border border-gray-200 transition-all duration-300">
-        <div class="text-indigo-600 text-4xl mb-4">
-          <i class="fas fa-star"></i>
-        </div>
-        <h3 class="text-xl font-semibold mb-2">Equipamentos Premium</h3>
-        <p class="text-gray-600">Trabalhamos apenas com equipamentos das melhores marcas e qualidade profissional.</p>
-      </div>
+            <div class="feature-card bg-gray-50 p-6 rounded-lg border border-gray-200 transition-all duration-300">
+                <div class="text-indigo-600 text-4xl mb-4">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Equipamentos Premium</h3>
+                <p class="text-gray-600">Trabalhamos apenas com equipamentos das melhores marcas e qualidade profissional.</p>
+            </div>
 
-      <div class="feature-card bg-gray-50 p-6 rounded-lg border border-gray-200 transition-all duration-300">
-        <div class="text-indigo-600 text-4xl mb-4">
-          <i class="fas fa-truck"></i>
-        </div>
-        <h3 class="text-xl font-semibold mb-2">Entrega Rápida</h3>
-        <p class="text-gray-600">Entregamos em todo o país com rapidez e segurança para seu evento.</p>
-      </div>
+            <div class="feature-card bg-gray-50 p-6 rounded-lg border border-gray-200 transition-all duration-300">
+                <div class="text-indigo-600 text-4xl mb-4">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Entrega Rápida</h3>
+                <p class="text-gray-600">Entregamos em todo o país com rapidez e segurança para seu evento.</p>
+            </div>
 
-      <div class="feature-card bg-gray-50 p-6 rounded-lg border border-gray-200 transition-all duration-300">
-        <div class="text-indigo-600 text-4xl mb-4">
-          <i class="fas fa-headset"></i>
+            <div class="feature-card bg-gray-50 p-6 rounded-lg border border-gray-200 transition-all duration-300">
+                <div class="text-indigo-600 text-4xl mb-4">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Suporte 24/7</h3>
+                <p class="text-gray-600">Nossa equipe está disponível para ajudar a qualquer momento.</p>
+            </div>
         </div>
-        <h3 class="text-xl font-semibold mb-2">Suporte 24/7</h3>
-        <p class="text-gray-600">Nossa equipe está disponível para ajudar a qualquer momento.</p>
-      </div>
     </div>
-  </div>
 </section>
 
 <section class="py-16 bg-gray-50">
-  <div class="container mx-auto px-4">
-    <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Kits Mais Populares</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Kits Mais Populares</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-      <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
-        <div class="h-48 bg-gray-200">
-          <img src="https://img.freepik.com/fotos-gratis/estilo-de-vida-de-festa-techno_52683-122049.jpg?semt=ais_hybrid&w=740"
-               alt="Kit DJ Profissional" class="w-full h-full object-cover">
-        </div>
-        <div class="p-6">
-          <h3 class="text-xl font-semibold mb-2">Kit DJ Completo</h3>
-          <p class="text-gray-600 mb-4">Tudo que você precisa para uma festa incrível com qualidade profissional.</p>
-          <div class="flex justify-between items-center">
-            <span class="font-bold text-indigo-600">R$ 299,00/dia</span>
-            <a href="/kits/1" class="text-indigo-600 hover:text-indigo-800 font-medium">
-              Detalhes <i class="fas fa-arrow-right ml-1"></i>
-            </a>
-          </div>
-        </div>
-      </div>
+            <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                <div class="h-48 bg-gray-200">
+                    <img src="https://img.freepik.com/fotos-gratis/estilo-de-vida-de-festa-techno_52683-122049.jpg?semt=ais_hybrid&w=740"
+                         alt="Kit DJ Profissional" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">Kit DJ Completo</h3>
+                    <p class="text-gray-600 mb-4">Tudo que você precisa para uma festa incrível com qualidade profissional.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-indigo-600">R$ 299,00/dia</span>
+                        <a href="/kits/1" class="text-indigo-600 hover:text-indigo-800 font-medium">
+                            Detalhes <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
 
-      <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
-        <div class="h-48 bg-gray-200">
-          <img src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80"
-               alt="Kit Iluminação" class="w-full h-full object-cover">
-        </div>
-        <div class="p-6">
-          <h3 class="text-xl font-semibold mb-2">Kit Iluminação</h3>
-          <p class="text-gray-600 mb-4">Iluminação profissional para transformar sua festa em um espetáculo.</p>
-          <div class="flex justify-between items-center">
-            <span class="font-bold text-indigo-600">R$ 199,00/dia</span>
-            <a href="/kits/2" class="text-indigo-600 hover:text-indigo-800 font-medium">
-              Detalhes <i class="fas fa-arrow-right ml-1"></i>
-            </a>
-          </div>
-        </div>
-      </div>
+            <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                <div class="h-48 bg-gray-200">
+                    <img src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80"
+                         alt="Kit Iluminação" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">Kit Iluminação</h3>
+                    <p class="text-gray-600 mb-4">Iluminação profissional para transformar sua festa em um espetáculo.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-indigo-600">R$ 199,00/dia</span>
+                        <a href="/kits/2" class="text-indigo-600 hover:text-indigo-800 font-medium">
+                            Detalhes <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
 
-      <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
-        <div class="h-48 bg-gray-200">
-          <img src="https://www.hercules.com/wp-content/uploads/2018/10/HerculesDJStarterKit_03_L-1024x684.jpg"
-               alt="Kit Som Profissional" class="w-full h-full object-cover">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+                <div class="h-48 bg-gray-200">
+                    <img src="https://www.hercules.com/wp-content/uploads/2018/10/HerculesDJStarterKit_03_L-1024x684.jpg"
+                         alt="Kit Som Profissional" class="w-full h-full object-cover">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">Kit Som Profissional</h3>
+                    <p class="text-gray-600 mb-4">Sistema de som potente para garantir a melhor qualidade musical.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-indigo-600">R$ 399,00/dia</span>
+                        <a href="/kits/3" class="text-indigo-600 hover:text-indigo-800 font-medium">
+                            Detalhes <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="p-6">
-          <h3 class="text-xl font-semibold mb-2">Kit Som Profissional</h3>
-          <p class="text-gray-600 mb-4">Sistema de som potente para garantir a melhor qualidade musical.</p>
-          <div class="flex justify-between items-center">
-            <span class="font-bold text-indigo-600">R$ 399,00/dia</span>
-            <a href="/kits/3" class="text-indigo-600 hover:text-indigo-800 font-medium">
-              Detalhes <i class="fas fa-arrow-right ml-1"></i>
+        <div class="text-center mt-10">
+            <a href="/kits" class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-md font-bold hover:bg-indigo-700 transition-colors">
+                <i class="fas fa-boxes mr-2"></i> Ver Todos os Kits
             </a>
-          </div>
         </div>
-      </div>
     </div>
-    <div class="text-center mt-10">
-      <a href="/kits" class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-md font-bold hover:bg-indigo-700 transition-colors">
-        <i class="fas fa-boxes mr-2"></i> Ver Todos os Kits
-      </a>
-    </div>
-  </div>
 </section>
 
 
 <section class="py-16 bg-white">
-  <div class="container mx-auto px-4">
-    <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">O que nossos clientes dizem</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">O que nossos clientes dizem</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-      <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
-        <div class="flex items-center mb-4">
-          <div class="h-12 w-12 rounded-full bg-indigo-100 flex items-center justify-center mr-4">
-            <i class="fas fa-user text-indigo-600"></i>
-          </div>
-          <div>
-            <h4 class="font-semibold">Carlos Silva</h4>
-            <div class="flex text-yellow-400">
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
+            <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                <div class="flex items-center mb-4">
+                    <div class="h-12 w-12 rounded-full bg-indigo-100 flex items-center justify-center mr-4">
+                        <i class="fas fa-user text-indigo-600"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold">Carlos Silva</h4>
+                        <div class="flex text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-gray-600">"Aluguei o kit de som para meu casamento e foi perfeito! Equipamento de primeira qualidade e atendimento excelente."</p>
             </div>
-          </div>
-        </div>
-        <p class="text-gray-600">"Aluguei o kit de som para meu casamento e foi perfeito! Equipamento de primeira qualidade e atendimento excelente."</p>
-      </div>
 
-      <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
-        <div class="flex items-center mb-4">
-          <div class="h-12 w-12 rounded-full bg-indigo-100 flex items-center justify-center mr-4">
-            <i class="fas fa-user text-indigo-600"></i>
-          </div>
-          <div>
-            <h4 class="font-semibold">Ana Oliveira</h4>
-            <div class="flex text-yellow-400">
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star-half-alt"></i>
+            <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                <div class="flex items-center mb-4">
+                    <div class="h-12 w-12 rounded-full bg-indigo-100 flex items-center justify-center mr-4">
+                        <i class="fas fa-user text-indigo-600"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold">Ana Oliveira</h4>
+                        <div class="flex text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-gray-600">"Ótimo serviço! A iluminação que aluguei para minha festa de 15 anos deixou tudo ainda mais especial."</p>
             </div>
-          </div>
-        </div>
-        <p class="text-gray-600">"Ótimo serviço! A iluminação que aluguei para minha festa de 15 anos deixou tudo ainda mais especial."</p>
-      </div>
 
-      <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
-        <div class="flex items-center mb-4">
-          <div class="h-12 w-12 rounded-full bg-indigo-100 flex items-center justify-center mr-4">
-            <i class="fas fa-user text-indigo-600"></i>
-          </div>
-          <div>
-            <h4 class="font-semibold">Ricardo Santos</h4>
-            <div class="flex text-yellow-400">
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
+            <div class="bg-gray-50 p-6 rounded-lg border border-gray-200">
+                <div class="flex items-center mb-4">
+                    <div class="h-12 w-12 rounded-full bg-indigo-100 flex items-center justify-center mr-4">
+                        <i class="fas fa-user text-indigo-600"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold">Ricardo Santos</h4>
+                        <div class="flex text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-gray-600">"Sempre alugo os equipamentos para eventos corporativos e nunca tive problemas. Recomendo!"</p>
             </div>
-          </div>
         </div>
-        <p class="text-gray-600">"Sempre alugo os equipamentos para eventos corporativos e nunca tive problemas. Recomendo!"</p>
-      </div>
     </div>
-  </div>
 </section>
 
 <section class="py-16 bg-indigo-600 text-white">
-  <div class="container mx-auto px-4 text-center">
-    <h2 class="text-3xl font-bold mb-6">Pronto para transformar seu evento?</h2>
-    <p class="text-xl mb-8 max-w-2xl mx-auto">Cadastre-se agora e tenha acesso aos melhores equipamentos com condições especiais</p>
-    <a href="/users/register" class="inline-block bg-white text-indigo-600 px-8 py-3 rounded-md font-bold hover:bg-indigo-50 transition-colors text-lg">
-      <i class="fas fa-user-plus mr-2"></i> Criar Conta Gratuita
-    </a>
-  </div>
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-3xl font-bold mb-6">Pronto para transformar seu evento?</h2>
+        <p class="text-xl mb-8 max-w-2xl mx-auto">Cadastre-se agora e tenha acesso aos melhores equipamentos com condições especiais</p>
+        <a href="/users/register" class="inline-block bg-white text-indigo-600 px-8 py-3 rounded-md font-bold hover:bg-indigo-50 transition-colors text-lg">
+            <i class="fas fa-user-plus mr-2"></i> Criar Conta Gratuita
+        </a>
+    </div>
 </section>
 
 <footer class="bg-gray-800 text-white py-12">
-  <div class="container mx-auto px-4">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-      <div>
-        <div class="flex items-center mb-4">
-          <i class="fas fa-headphones text-2xl mr-2 text-indigo-400"></i>
-          <h3 class="text-xl font-bold">Loca DJ</h3>
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <div class="flex items-center mb-4">
+                    <i class="fas fa-headphones text-2xl mr-2 text-indigo-400"></i>
+                    <h3 class="text-xl font-bold">Loca DJ</h3>
+                </div>
+                <p class="text-gray-400">Sua melhor opção em aluguel de equipamentos para eventos.</p>
+            </div>
+            <div>
+                <h4 class="text-lg font-semibold mb-4">Contato</h4>
+                <ul class="space-y-2 text-gray-400">
+                    <li class="flex items-center"><i class="fas fa-map-marker-alt mr-2"></i> Fortaleza, CE</li>
+                    <li class="flex items-center"><i class="fas fa-phone-alt mr-2"></i> (85) 99999-9999</li>
+                    <li class="flex items-center"><i class="fas fa-envelope mr-2"></i> contato@djrentals.com</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-lg font-semibold mb-4">Redes Sociais</h4>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
         </div>
-        <p class="text-gray-400">Sua melhor opção em aluguel de equipamentos para eventos.</p>
-      </div>
-      <div>
-        <h4 class="text-lg font-semibold mb-4">Contato</h4>
-        <ul class="space-y-2 text-gray-400">
-          <li class="flex items-center"><i class="fas fa-map-marker-alt mr-2"></i> Fortaleza, CE</li>
-          <li class="flex items-center"><i class="fas fa-phone-alt mr-2"></i> (85) 99999-9999</li>
-          <li class="flex items-center"><i class="fas fa-envelope mr-2"></i> contato@djrentals.com</li>
-        </ul>
-      </div>
-      <div>
-        <h4 class="text-lg font-semibold mb-4">Redes Sociais</h4>
-        <div class="flex space-x-4">
-          <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-facebook"></i></a>
-          <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-instagram"></i></a>
-          <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-twitter"></i></a>
-          <a href="#" class="text-gray-400 hover:text-white text-xl"><i class="fab fa-youtube"></i></a>
+        <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+            <p>&copy; <span th:text="${#temporals.year(#temporals.createToday())}"></span> Loca DJ. Todos os direitos reservados.</p>
         </div>
-      </div>
     </div>
-    <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-      <p>&copy; <span th:text="${#temporals.year(#temporals.createToday())}"></span> Loca DJ. Todos os direitos reservados.</p>
-    </div>
-  </div>
 </footer>
 </body>
 </html>
