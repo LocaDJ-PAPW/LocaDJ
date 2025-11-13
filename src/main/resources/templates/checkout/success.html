@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <title>Compra Confirmada - Loca DJ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+<!-- Navbar -->
+<header class="bg-indigo-600 text-white shadow-md">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <!-- Logo e título -->
+        <div class="flex items-center space-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 19V6h13M9 6L5 9m0 6l4 3" />
+            </svg>
+            <span class="text-lg font-semibold">Loca DJ</span>
+        </div>
+
+        <!-- Usuário logado + botão sair -->
+        <div class="flex items-center space-x-4">
+            <span th:text="${username}" class="hidden sm:inline">Olá, usuário</span>
+            <a href="/logout"
+               class="bg-white text-indigo-600 px-4 py-2 rounded-lg font-medium shadow hover:bg-gray-100 transition">
+                Sair
+            </a>
+        </div>
+    </div>
+</header>
+
+<!-- Conteúdo -->
+<main class="flex-grow flex items-center justify-center p-6">
+    <div class="bg-white shadow-lg rounded-2xl p-8 max-w-md w-full text-center">
+
+        <!-- Ícone de sucesso -->
+        <div class="flex justify-center mb-4">
+            <div class="flex items-center justify-center w-20 h-20 rounded-full bg-green-100">
+                <svg class="w-12 h-12 text-green-600" fill="none" stroke="currentColor" stroke-width="2"
+                     viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Título -->
+        <h2 class="text-2xl font-bold text-gray-800 mb-2">Compra Finalizada com Sucesso!</h2>
+
+        <!-- Mensagem -->
+        <p class="text-gray-600 mb-6">
+            Agradecemos pela sua compra! Seu pedido foi processado com sucesso e uma confirmação foi enviada para o seu e-mail.
+        </p>
+
+        <!-- Botão principal -->
+        <a th:href="@{/}"
+           class="block w-full bg-green-600 text-white font-semibold py-3 px-6 rounded-xl shadow-md hover:bg-green-700 transition">
+            Concluir
+        </a>
+    </div>
+</main>
+
+</body>
+</html>
