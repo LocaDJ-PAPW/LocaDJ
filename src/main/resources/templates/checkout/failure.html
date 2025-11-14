@@ -1,10 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Pagamento Falhou - Loca DJ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+<!-- Navbar -->
+<header class="bg-indigo-600 text-white shadow-md">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <!-- Logo + Título -->
+        <div class="flex items-center space-x-2">
+            <i class="fa-solid fa-headphones text-2xl"></i>
+            <span class="text-lg font-semibold">Loca DJ</span>
+        </div>
+
+        <!-- Usuário + Logout -->
+        <div class="flex items-center space-x-4">
+            <span th:text="${username}" class="hidden sm:inline">Olá, usuário</span>
+            <a href="/logout"
+               class="bg-white text-indigo-600 px-4 py-2 rounded-lg font-medium shadow hover:bg-gray-100 transition">
+                Sair
+            </a>
+        </div>
+    </div>
+</header>
+
+<main class="flex-grow flex flex-col items-center justify-center p-6">
+
+    <div class="bg-white rounded-lg shadow-md p-8 max-w-2xl w-full text-center">
+        <div class="flex justify-center mb-4">
+            <div class="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center">
+                <i class="fas fa-times text-red-500 text-2xl"></i>
+            </div>
+        </div>
+
+        <h1 class="text-2xl font-semibold text-gray-800 mb-2">Pagamento Não Concluído</h1>
+        <p class="text-gray-600 mb-6">
+            Ocorreu um problema ao processar seu pagamento. Tente novamente ou entre em contato conosco se o problema persistir.
+        </p>
+
+        <div class="bg-red-50 border border-red-200 rounded-md p-4 mb-6 text-left">
+            <div class="flex items-start">
+                <i class="fas fa-exclamation-circle text-red-500 mt-1 mr-2"></i>
+                <div>
+                    <p class="text-red-700 font-medium">Motivo da falha:</p>
+                    <p class="text-red-600" th:text="${message}">Não foi possível processar seu pagamento no momento.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col items-center mb-6">
+            <img src="/imagens/mercadopago.webp"
+                 alt="Mercado Pago"
+                 class="max-w-[220px] mb-4">
+        </div>
+
+        <p class="text-xs text-gray-500 mt-4">Seus dados protegidos.</p>
+    </div>
+
+    <div class="w-full max-w-2xl flex justify-between mt-6 px-2">
+        <a th:href="@{/reservations/client/dashboard}"
+           class="bg-gray-600 hover:bg-gray-700 text-white px-5 py-2 rounded-md transition-colors">
+            Voltar ao Dashboard
+        </a>
+        <a th:href="@{/pagamento/{id}(id=${reservationId})}"
+           class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-md transition-colors">
+            Tentar Novamente
+        </a>
+    </div>
+
+</main>
 
 </body>
 </html>
