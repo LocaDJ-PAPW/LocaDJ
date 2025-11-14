@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Pagamento Aprovado - Loca DJ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+<!-- Navbar -->
+<header class="bg-indigo-600 text-white shadow-md">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <!-- Logo + Título -->
+        <div class="flex items-center space-x-2">
+            <i class="fa-solid fa-headphones text-2xl"></i>
+            <span class="text-lg font-semibold">Loca DJ</span>
+        </div>
+
+        <!-- Usuário + Logout -->
+        <div class="flex items-center space-x-4">
+            <span th:text="${username}" class="hidden sm:inline">Olá, usuário</span>
+            <a href="/logout"
+               class="bg-white text-indigo-600 px-4 py-2 rounded-lg font-medium shadow hover:bg-gray-100 transition">
+                Sair
+            </a>
+        </div>
+    </div>
+</header>
+
+<main class="flex-grow flex flex-col items-center justify-center p-6">
+
+    <div class="bg-white rounded-lg shadow-md p-8 max-w-2xl w-full text-center">
+        <div class="flex justify-center mb-4">
+            <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center">
+                <i class="fas fa-check text-green-500 text-2xl"></i>
+            </div>
+        </div>
+
+        <h1 class="text-2xl font-semibold text-gray-800 mb-2">Pagamento Aprovado!</h1>
+        <p class="text-gray-600 mb-6">
+            Seu pagamento foi processado com sucesso. Sua reserva está confirmada.
+        </p>
+
+        <div class="bg-green-50 border border-green-200 rounded-md p-4 mb-6">
+            <div class="flex items-center justify-center">
+                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                <p class="text-green-700">Você receberá um e-mail com os detalhes da sua reserva.</p>
+            </div>
+        </div>
+
+        <div class="bg-gray-50 rounded-lg p-6 mb-6 text-left">
+            <h3 class="font-medium text-gray-800 mb-3">Detalhes da Reserva</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div>
+                    <p class="text-sm text-gray-600">Número da Reserva:</p>
+                    <p class="font-medium" th:text="${reservationId}">#12345</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600">Data do Pagamento:</p>
+                    <p class="font-medium" th:text="${paymentDate}">01/01/2023</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600">Valor Pago:</p>
+                    <p class="font-medium" th:text="${amount}">R$ 250,00</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600">Método de Pagamento:</p>
+                    <p class="font-medium">Mercado Pago</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col items-center mb-6">
+            <img src="/imagens/mercadopago.webp"
+                 alt="Mercado Pago"
+                 class="max-w-[220px] mb-4">
+        </div>
+
+        <p class="text-xs text-gray-500 mt-4">Seus dados protegidos.</p>
+    </div>
+
+    <div class="w-full max-w-2xl flex justify-between mt-6 px-2">
+        <a th:href="@{/reservations/client/dashboard}"
+           class="bg-gray-600 hover:bg-gray-700 text-white px-5 py-2 rounded-md transition-colors">
+            Voltar ao Dashboard
+        </a>
+        <a th:href="@{/reservations/{id}(id=${reservationId})}"
+           class="bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-md transition-colors">
+            Ver Detalhes da Reserva
+        </a>
+    </div>
+
+</main>
+
+</body>
+</html>

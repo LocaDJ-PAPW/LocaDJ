@@ -25,9 +25,9 @@ public class ReservationService {
 
     public Reservation save(@Valid Reservation reservation) {
         Kit kit = reservation.getKit();
-        kit.setQuantity(kit.getQuantity() - 1);
         reservation.setDaily(Days(reservation.getStartDateTime(), reservation.getEndDateTime()));
         reservation.setTotalAmount(reservation.getDaily() * kit.getPricePerDay());
+        reservation.setStatus(Status.PENDENTE);
         return reservationRepository.save(reservation);
     }
 
@@ -45,7 +45,6 @@ public class ReservationService {
     public void deleteById(Long id) {
         Reservation reservation = reservationRepository.getReferenceById(id);
         Kit kit = reservation.getKit();
-        kit.setQuantity(kit.getQuantity() + 1);
         reservationRepository.deleteById(id);
     }
 
@@ -64,6 +63,12 @@ public class ReservationService {
         return (int) Math.ceil(days);
 
 
+    }
+
+    public void confirmReservation(long reservationId){
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new RuntimeException("Reserva não encontrado!"));
+        reservation.setStatus(Status.CONFIRMADA);
+        reservationRepository.save(reservation);
     }
 
     public int activeReservations(){
