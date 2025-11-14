@@ -10,7 +10,7 @@ services:
     autoDeploy: true
     # Define o plano. 'starter' é o plano gratuito.
     # Para produção, considere 'standard' ou superior.
-    plan: starter
+    plan: free
     # Informa ao Render qual porta sua aplicação expõe (do EXPOSE no Dockerfile)
     httpPort: 8080
 
@@ -22,7 +22,6 @@ services:
       # O Render vai checar este endpoint.
       # Se você adicionar o Spring Boot Actuator, é recomendado mudar para /actuator/health
       path: /
-
     # Variáveis de ambiente.
     # Você deve definir os valores para as chaves com 'fromEnv'
     # no dashboard do Render, na seção 'Environment'.
