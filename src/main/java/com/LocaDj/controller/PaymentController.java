@@ -48,7 +48,7 @@ public class PaymentController {
                     .orElseThrow(() -> new UsernameNotFoundException("Reserva não encontrada!"));
 
             CreatePreferenceRequestDTO.PayerDTO payer = new CreatePreferenceRequestDTO.PayerDTO(loggedUser.getName(), loggedUser.getEmail() );
-            String baseUrl = "localhost:8080";
+            String baseUrl = "https://locadj.onrender.com";
 
             CreatePreferenceRequestDTO.BackUrlsDTO backUrlsDTO = new CreatePreferenceRequestDTO.BackUrlsDTO(baseUrl+"/checkout/success",baseUrl+"/checkout/failure", baseUrl+"/checkout/pending" );
 
