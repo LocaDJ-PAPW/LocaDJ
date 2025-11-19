@@ -35,8 +35,10 @@ public class ReservationService {
         return reservationRepository.findAll()
                 .stream()
                 .filter(r -> r.getUser().getId().equals(user.getId()))
+                .sorted(Comparator.comparing(Reservation::getId).reversed())
                 .toList();
     }
+
 
     public List<Reservation> findAll() {
         return reservationRepository.findAll();
@@ -68,6 +70,7 @@ public class ReservationService {
     public void confirmReservation(long reservationId){
         Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new RuntimeException("Reserva não encontrado!"));
         reservation.setStatus(Status.CONFIRMADA);
+        reservation.getKit().setRents(reservation.getKit().getRents() + 1);
         reservationRepository.save(reservation);
     }
 

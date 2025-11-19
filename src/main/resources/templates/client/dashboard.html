@@ -49,15 +49,17 @@
             </div>
 
             <div class="mb-6 flex flex-wrap gap-3">
-                <button class="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-full text-sm font-medium hover:bg-indigo-200 transition-colors">
+                <a th:href="@{/reservations/client/dashboard}"
+                   class="px-4 py-2 rounded-full text-sm font-medium transition-colors"
+                   th:classappend="${param.sort == null} ? 'bg-indigo-100 text-indigo-700' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'">
                     Todos
-                </button>
-                <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors">
+                </a>
+
+                <a th:href="@{/reservations/client/dashboard(sort='popular')}"
+                   class="px-4 py-2 rounded-full text-sm font-medium transition-colors"
+                   th:classappend="${param.sort != null && param.sort[0] == 'popular'} ? 'bg-indigo-100 text-indigo-700' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'">
                     Mais populares
-                </button>
-                <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-200 transition-colors">
-                    Melhor avaliação
-                </button>
+                </a>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -141,20 +143,25 @@
                 <div class="text-gray-900" th:text="${#temporals.format(res.endDateTime, 'dd/MM/yyyy HH:mm')}"></div>
               </td>
 
-              <td class="px-6 py-4 whitespace-nowrap">
-    <span th:with="statusName=${res.status != null ? res.status.toString() : 'INDEFINIDO'}"
-          class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full"
-          th:classappend="
-            ${statusName == 'PENDENTE'} ? 'bg-yellow-100 text-yellow-800' :
-            (${statusName == 'CONFIRMADA'} ? 'bg-green-100 text-green-800' :
-            (${statusName == 'CANCELADA'} ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800'))"
-          th:text="
-            ${statusName == 'PENDENTE'} ? 'Pendente' :
-            (${statusName == 'CONFIRMADA'} ? 'Confirmada' :
-            (${statusName == 'CANCELADA'} ? 'Cancelada' :
-            (${statusName == 'INDEFINIDO'} ? 'Indefinido' : statusName)))">
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <a th:if="${res.status.toString() == 'PENDENTE'}"
+                       th:href="@{/reservations/payment/{id}(id=${res.id})}"
+                       title="Clique para finalizar o pagamento"
+                       class="px-2 py-1 inline-flex items-center text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 hover:bg-yellow-200 hover:text-yellow-900 cursor-pointer transition-colors border border-transparent hover:border-yellow-300">
+                        <span>Pendente</span>
+                        <i class="fas fa-chevron-right ml-1 text-[10px]"></i>
+                    </a>
+
+                    <span th:unless="${res.status.toString() == 'PENDENTE'}"
+                          class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full"
+                          th:classappend="
+            ${res.status.toString() == 'CONFIRMADA'} ? 'bg-green-100 text-green-800' :
+            (${res.status.toString() == 'CANCELADA'} ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-gray-800')"
+                          th:text="
+            ${res.status.toString() == 'CONFIRMADA'} ? 'Confirmada' :
+            (${res.status.toString() == 'CANCELADA'} ? 'Cancelada' : ${res.status.toString()})">
     </span>
-              </td>
+                </td>
               <td class="px-6 py-4 whitespace-nowrap text-right">
                 <a th:href="@{/reservations/client/cancel/{id}(id=${res.id})}"
                    class="text-white bg-red-600 px-3 py-1 rounded-md text-sm font-medium hover:bg-red-700 transition-colors inline-flex items-center"

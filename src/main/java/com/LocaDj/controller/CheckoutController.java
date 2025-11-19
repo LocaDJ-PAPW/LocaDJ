@@ -24,6 +24,16 @@ public class CheckoutController {
 
     @GetMapping("/success")
     public String showSuccessPage() {
-        return "checkout/success"; // Retorna a página de sucesso
+        return "checkout/success";
+    }
+
+    @GetMapping("/failure")
+    public String showFailurePage() {
+        return "checkout/failure";
+    }
+
+    @GetMapping("/pending")
+    public String showPendingPage() {
+        return "checkout/pending";
     }
 }

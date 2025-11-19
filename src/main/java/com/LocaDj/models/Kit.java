@@ -28,6 +28,7 @@ public class Kit {
     private String imageUrl;
 
     private int quantity;
+    private int rents;
 
     private boolean availability = quantity > 0;
 
