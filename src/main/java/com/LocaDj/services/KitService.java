@@ -57,4 +57,10 @@ public class KitService {
 
         return data;
     }
+
+    public List<Kit> getMostPopularKits() {
+        return kitRepository.findAll().stream()
+                .sorted(Comparator.comparing(Kit::getRents).reversed())
+                .toList();
+    }
 }

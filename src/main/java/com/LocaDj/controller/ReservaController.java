@@ -4,6 +4,7 @@ import com.LocaDj.DTOs.ReservationFormDTO;
 import com.LocaDj.models.*;
 import com.LocaDj.services.*;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,9 +17,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Controller
 @RequestMapping("/reservations")
 public class ReservaController {
@@ -40,6 +43,10 @@ public class ReservaController {
         ReservationFormDTO form = new ReservationFormDTO();
         if (kitId != null) {
             form.setKitId(kitId);
+        }
+        List<Kit> kits = kitService.findAll();
+        for(Kit k : kits) {
+            log.info("Kit id: {} --- reservas : {}", k.getId(), k.getRents());
         }
         model.addAttribute("reservationForm", form);
         model.addAttribute("kits", kitService.findAll());
@@ -103,11 +110,15 @@ public class ReservaController {
     }
 
     @GetMapping("/client/dashboard")
-    public String clientDashboard(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+    public String clientDashboard(@AuthenticationPrincipal UserDetails userDetails, Model model, @RequestParam(value = "sort", required = false) String sort) {
         User user = userService.findByEmail(userDetails.getUsername()).orElseThrow();
+        List<Kit>  kits = kitService.findAll();;
+        if("popular".equals(sort))
+            kits = kitService.getMostPopularKits();
+
         List<Reservation> reservations = reservationService.findByUser(user);
         model.addAttribute("reservations", reservations);
-        model.addAttribute("kits", kitService.findAll());
+        model.addAttribute("kits", kits);
         return "client/dashboard";
     }
 
