@@ -140,7 +140,9 @@ public class MercadoPagoClient {
         Reservation reservation = reservationService.findById(Long.valueOf(paymentMercadoPago.getExternalReference()))
                 .orElseThrow(() -> new UsernameNotFoundException("Reserva não encontrada!"));
 
-        reservationService.confirmReservation(reservation.getId());
+        if(paymentMercadoPago.getStatus().equalsIgnoreCase("APPROVED")) {
+            reservationService.confirmReservation(reservation.getId());
+        }
 
 
         return PaymentEntity.builder()
