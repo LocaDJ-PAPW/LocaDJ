@@ -145,7 +145,7 @@
 
                 <td class="px-6 py-4 whitespace-nowrap">
                     <a th:if="${res.status.toString() == 'PENDENTE'}"
-                       th:href="@{/reservations/payment/{id}(id=${res.id})}"
+                       th:href="@{/checkout/{id}(id=${res.id})}"
                        title="Clique para finalizar o pagamento"
                        class="px-2 py-1 inline-flex items-center text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 hover:bg-yellow-200 hover:text-yellow-900 cursor-pointer transition-colors border border-transparent hover:border-yellow-300">
                         <span>Pendente</span>
