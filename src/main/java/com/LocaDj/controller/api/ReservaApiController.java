@@ -1,0 +1,55 @@
+package com.LocaDj.controller.api;
+
+import com.LocaDj.DTOs.ReservationFormDTO;
+import com.LocaDj.models.*;
+import com.LocaDj.services.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/reservations")
+public class ReservaApiController {
+
+    @Autowired private ReservationService reservationService;
+    @Autowired private KitService kitService;
+    @Autowired private UserService userService;
+
+    @GetMapping("/my-reservations")
+    public List<Reservation> getMyReservations(@AuthenticationPrincipal UserDetails userDetails) {
+        User user = userService.findByEmail(userDetails.getUsername()).orElseThrow();
+        return reservationService.findByUser(user);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> createReservation(@AuthenticationPrincipal UserDetails userDetails,
+                                               @RequestBody ReservationFormDTO form) {
+
+        Kit kit = kitService.findById(form.getKitId()).orElse(null);
+        if (kit == null) return ResponseEntity.badRequest().body("Kit não encontrado");
+
+        LocalDateTime start = LocalDateTime.parse(form.getStartDateTime());
+        LocalDateTime end = LocalDateTime.parse(form.getEndDateTime());
+
+        if (!reservationService.isAvailable(kit, start, end)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Kit indisponível no período");
+        }
+
+        User user = userService.findByEmail(userDetails.getUsername()).orElseThrow();
+
+        Reservation res = new Reservation();
+        res.setKit(kit);
+        res.setUser(user);
+        res.setStartDateTime(start);
+        res.setEndDateTime(end);
+
+        Reservation saved = reservationService.save(res);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    }
+}
