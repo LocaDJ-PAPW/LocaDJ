@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Component
@@ -144,17 +145,23 @@ public class MercadoPagoClient {
             reservationService.confirmReservation(reservation.getId());
         }
 
+        String formattedDate = null;
+        if (paymentMercadoPago.getDateApproved() != null) {
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            formattedDate = paymentMercadoPago.getDateApproved().format(formatter);
+        }
+
 
         return PaymentEntity.builder()
                 .id(paymentMercadoPago.getId().toString())
                 .orderId(paymentMercadoPago.getExternalReference())
-                .status(status)
+                .status(paymentMercadoPago.getStatus())
                 .amount(paymentMercadoPago.getTransactionAmount() != null ? paymentMercadoPago.getTransactionAmount().toString() : null)
                 .statusDetail(paymentMercadoPago.getStatusDetail())
                 .payer(payer)
-                .paymentMethodId(paymentMethods)
+                .paymentMethodId(paymentMercadoPago.getPaymentMethodId())
+                .dateApproved(formattedDate)
                 .build();
-
-
     }
 }

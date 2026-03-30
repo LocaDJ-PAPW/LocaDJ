@@ -11,10 +11,11 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PaymentEntity {
     private String id;
-    private String status;
     private String orderId;
+    private String status;
     private String amount;
     private String statusDetail;
     private Payer payer;
     private String paymentMethodId;
+    private String dateApproved;
 }
