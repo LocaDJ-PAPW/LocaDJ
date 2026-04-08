@@ -46,7 +46,6 @@
             <div class="flex items-start">
                 <i class="fas fa-exclamation-circle text-red-500 mt-1 mr-2"></i>
                 <div>
-                    <p class="text-red-700 font-medium">Motivo da falha:</p>
                     <p class="text-red-600" th:text="${message}">Não foi possível processar seu pagamento no momento.</p>
                 </div>
             </div>
@@ -65,10 +64,6 @@
         <a th:href="@{/reservations/client/dashboard}"
            class="bg-gray-600 hover:bg-gray-700 text-white px-5 py-2 rounded-md transition-colors">
             Voltar ao Dashboard
-        </a>
-        <a th:href="@{/pagamento/{id}(id=${reservationId})}"
-           class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-md transition-colors">
-            Tentar Novamente
         </a>
     </div>
 
