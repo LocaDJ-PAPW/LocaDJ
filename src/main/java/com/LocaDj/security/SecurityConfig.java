@@ -70,6 +70,7 @@ public class SecurityConfig {
                         .requestMatchers("/kits/**", "/reservations/**").authenticated()
                         .anyRequest().authenticated()
                 )
+                .addFilterBefore(new FirebaseTokenFilter(userDetailsService()), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin(login -> login
                         .loginPage("/login") // sua página customizada
