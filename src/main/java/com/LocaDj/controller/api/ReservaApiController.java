@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/reservations")
@@ -21,10 +22,15 @@ public class ReservaApiController {
     @Autowired private KitService kitService;
     @Autowired private UserService userService;
 
-    @GetMapping("/my-reservations")
+    @GetMapping
     public List<Reservation> getMyReservations(@AuthenticationPrincipal UserDetails userDetails) {
         User user = userService.findByEmail(userDetails.getUsername()).orElseThrow();
         return reservationService.findByUser(user);
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Reservation> getReservationById(@PathVariable Long id) {
+        return reservationService.findById(id);
     }
 
     @PostMapping
