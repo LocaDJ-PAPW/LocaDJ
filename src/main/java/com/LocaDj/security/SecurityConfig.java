@@ -1,6 +1,7 @@
 package com.LocaDj.security;
 
 
+import com.LocaDj.repositories.UserRepository;
 import org.springframework.http.HttpMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -31,6 +32,8 @@ public class SecurityConfig {
     @Autowired
     @Lazy
     private JwtAuthenticationFilter jwtAuthFilter;
+    @Autowired
+    private UserRepository userRepository;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -93,7 +96,7 @@ public class SecurityConfig {
                         // Exige autenticação para qualquer outra coisa que não foi citada acima
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(new FirebaseTokenFilter(userDetailsService()), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new FirebaseTokenFilter(userDetailsService(), userRepository), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin(login -> login
                         .loginPage("/login")
