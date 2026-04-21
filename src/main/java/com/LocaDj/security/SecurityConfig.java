@@ -65,16 +65,15 @@ public class SecurityConfig {
                 .exceptionHandling(ex -> ex
                         .defaultAuthenticationEntryPointFor(
                                 new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
-                                // Lógica moderna sem classes depreciadas:
                                 request -> request.getServletPath().startsWith("/api/")
                         )
                 )
 
                 .authorizeHttpRequests(auth -> auth
-                        // Permite as requisições de checagem do navegador (CORS)
+
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                        // Rotas públicas da API
+
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/v1/webhooks/mercadopago").permitAll()
 

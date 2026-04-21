@@ -31,14 +31,16 @@ public class FirebaseTokenFilter extends OncePerRequestFilter {
 
         if (header != null && header.startsWith("Bearer ")) {
             String token = header.substring(7);
-
+            System.out.println("OPA! Chegou um token no backend!");
             try {
 
                 FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
                 String email = decodedToken.getEmail();
+                System.out.println("Firebase validou! Email: " + email);
 
 
                 UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+                System.out.println("Achou o usuário no banco de dados!");
 
 
                 UsernamePasswordAuthenticationToken authentication =
@@ -47,6 +49,7 @@ public class FirebaseTokenFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
             } catch (Exception e) {
+                System.out.println("DEU RUIM NO FILTRO DO FIREBASE: " + e.getMessage()); // LOG DE ERRO
 
             }
         }
