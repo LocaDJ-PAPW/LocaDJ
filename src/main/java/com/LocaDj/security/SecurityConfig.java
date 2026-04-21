@@ -56,46 +56,31 @@ public class SecurityConfig {
         return provider;
     }
 
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
 
-
                 .exceptionHandling(ex -> ex
                         .defaultAuthenticationEntryPointFor(
                                 new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
-                                // Lógica moderna sem classes depreciadas:
                                 request -> request.getServletPath().startsWith("/api/")
                         )
                 )
 
                 .authorizeHttpRequests(auth -> auth
-                        // Permite as requisições de checagem do navegador (CORS)
+
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                        // Rotas públicas da API
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/v1/webhooks/mercadopago").permitAll()
 
-                        // Rotas Web/Estáticas
-                        .requestMatchers("/", "/index", "/home").permitAll()
-                        .requestMatchers("/login", "/users/register").permitAll()
-                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
-                        .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
-                        .requestMatchers("/h2-console/**").permitAll()
-
-                        // 👇 2. PROTEÇÃO CORRETA DA API (Ordem importa!)
-                        // Tem que começar com /api/ para bater com a chamada do React Native
-                        .requestMatchers("/api/kits/**", "/api/reservations/**", "/api/checkout/**").authenticated()
-
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-
-                        // Exige autenticação para qualquer outra coisa que não foi citada acima
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
+
+
                 .addFilterBefore(new FirebaseTokenFilter(userDetailsService()), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+
                 .formLogin(login -> login
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
