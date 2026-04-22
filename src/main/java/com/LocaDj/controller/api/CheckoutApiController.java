@@ -53,9 +53,9 @@ public class CheckoutApiController {
             String baseUrl = "https://locadj.onrender.com";
 
             CreatePreferenceRequestDTO.BackUrlsDTO backUrlsDTO = new CreatePreferenceRequestDTO.BackUrlsDTO(
-                    baseUrl + "/checkout/success",
-                    baseUrl + "/checkout/failure",
-                    baseUrl + "/checkout/pending"
+                    paymentRequestDto.getSuccessUrl(), // A URL gerada no Expo do usuario de sucesso!
+                    paymentRequestDto.getFailureUrl(), // A do expo de falha!
+                    paymentRequestDto.getPendingUrl()  // A do expo pendente!
             );
 
             CreatePreferenceRequestDTO.ItemDTO item = new CreatePreferenceRequestDTO.ItemDTO(
