@@ -46,7 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         jwt = authHeader.substring(7);
 
-        // 3. TRY-CATCH OBRIGATÓRIO (É aqui que estava quebrando!)
+
         try {
 
             userEmail = jwtService.extractUsername(jwt);

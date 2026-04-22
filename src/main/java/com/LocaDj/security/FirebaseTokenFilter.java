@@ -56,7 +56,7 @@ public class FirebaseTokenFilter extends OncePerRequestFilter {
                     User newUser = new User();
                     newUser.setEmail(email);
                     newUser.setName(name != null ? name : "Usuário App");
-                    newUser.setPassword("");
+                    newUser.setPassword(java.util.UUID.randomUUID().toString());
 
 
                     newUser.setRole(User.Role.CLIENT);
