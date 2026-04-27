@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "reservations")
@@ -30,6 +32,9 @@ public class Reservation {
 
     @NotNull
     private LocalDateTime endDateTime;
+
+    @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
+    private List<StatusLog>  statusLogs = new ArrayList<>();
 
     private int daily;
 

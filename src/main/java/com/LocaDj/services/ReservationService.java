@@ -28,6 +28,11 @@ public class ReservationService {
         reservation.setDaily(Days(reservation.getStartDateTime(), reservation.getEndDateTime()));
         reservation.setTotalAmount(reservation.getDaily() * kit.getPricePerDay());
         reservation.setStatus(Status.PENDENTE);
+        StatusLog statusLog = new StatusLog();
+        statusLog.setStatus(Status.PENDENTE);
+        statusLog.setDate(LocalDateTime.now());
+        reservation.getStatusLogs().add(statusLog);
+        statusLog.setReservation(reservation);
         return reservationRepository.save(reservation);
     }
 
@@ -71,8 +76,49 @@ public class ReservationService {
         Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new RuntimeException("Reserva não encontrado!"));
         reservation.setStatus(Status.CONFIRMADA);
         reservation.getKit().setRents(reservation.getKit().getRents() + 1);
+        StatusLog statusLog = new StatusLog();
+        statusLog.setStatus(Status.CONFIRMADA);
+        statusLog.setDate(LocalDateTime.now());
+        reservation.getStatusLogs().add(statusLog);
+        statusLog.setReservation(reservation);
         reservationRepository.save(reservation);
     }
+
+    public void LeftForDelivery(long reservationId){
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new RuntimeException("Reserva não encontrado!"));
+        reservation.setStatus(Status.SAIU_PARA_ENTREGA);
+        StatusLog statusLog = new StatusLog();
+        statusLog.setStatus(Status.SAIU_PARA_ENTREGA);
+        statusLog.setDate(LocalDateTime.now());
+        reservation.getStatusLogs().add(statusLog);
+        statusLog.setReservation(reservation);
+        reservationRepository.save(reservation);
+    }
+
+    public void InProgress(long reservationId){
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new RuntimeException("Reserva não encontrado!"));
+        reservation.setStatus(Status.EM_ADAMENTO);
+        StatusLog statusLog = new StatusLog();
+        statusLog.setStatus(Status.EM_ADAMENTO);
+        statusLog.setDate(LocalDateTime.now());
+        reservation.getStatusLogs().add(statusLog);
+        statusLog.setReservation(reservation);
+        reservationRepository.save(reservation);
+    }
+
+
+    public void completed(long reservationId){
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new RuntimeException("Reserva não encontrado!"));
+        reservation.setStatus(Status.CONCLUIDA);
+        StatusLog statusLog = new StatusLog();
+        statusLog.setStatus(Status.CONCLUIDA);
+        statusLog.setDate(LocalDateTime.now());
+        reservation.getStatusLogs().add(statusLog);
+        statusLog.setReservation(reservation);
+        reservationRepository.save(reservation);
+    }
+
+
 
     public int activeReservations(){
         return reservationRepository.countByStatus(Status.CONFIRMADA);

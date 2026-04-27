@@ -58,4 +58,22 @@ public class ReservaApiController {
         Reservation saved = reservationService.save(res);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
+
+    @PatchMapping("/{id}/left-for-delivery")
+    public ResponseEntity<Void> leftForDelivery(@PathVariable("id") long id) {
+        reservationService.LeftForDelivery(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/in-progress")
+    public ResponseEntity<Void> inProgress(@PathVariable("id") long id) {
+        reservationService.InProgress(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/completed")
+    public ResponseEntity<Void> completed(@PathVariable("id") long id) {
+        reservationService.completed(id);
+        return ResponseEntity.noContent().build();
+    }
 }
