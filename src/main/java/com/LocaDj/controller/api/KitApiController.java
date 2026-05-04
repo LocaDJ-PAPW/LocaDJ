@@ -32,6 +32,14 @@ public class KitApiController {
         return kitService.save(kit);
     }
 
+    @PutMapping("/{id}")
+    public Kit update(@PathVariable Long id, @RequestBody Kit kit) {
+
+        kit.setId(id);
+
+        return kitService.save(kit);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         kitService.deleteById(id);

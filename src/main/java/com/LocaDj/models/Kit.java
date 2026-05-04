@@ -30,6 +30,8 @@ public class Kit {
     private int quantity;
     private int rents;
 
+    private boolean isActive;
+
     private boolean availability = quantity > 0;
 
 }
