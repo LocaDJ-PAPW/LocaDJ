@@ -40,6 +40,8 @@ public class Reservation {
 
     private double totalAmount;
 
+    private String paymentMethod;
+
     private Status status;
 
 }

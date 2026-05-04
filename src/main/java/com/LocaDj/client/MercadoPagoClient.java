@@ -143,6 +143,10 @@ public class MercadoPagoClient {
 
         if(paymentMercadoPago.getStatus().equalsIgnoreCase("APPROVED")) {
             reservationService.confirmReservation(reservation.getId());
+            String tipoOriginal = paymentMercadoPago.getPaymentTypeId();
+
+            String tipoTraduzido = traduzirTipoPagamento(tipoOriginal);
+            reservation.setPaymentMethod(tipoTraduzido);
         }
 
         String formattedDate = null;
@@ -163,5 +167,23 @@ public class MercadoPagoClient {
                 .paymentMethodId(paymentMercadoPago.getPaymentMethodId())
                 .dateApproved(formattedDate)
                 .build();
+    }
+
+    private String traduzirTipoPagamento(String paymentTypeId) {
+        if (paymentTypeId == null) {
+            return "Desconhecido";
+        }
+
+        return switch (paymentTypeId) {
+            case "credit_card" -> "Cartão de Crédito";
+            case "debit_card" -> "Cartão de Débito";
+            case "ticket" -> "Boleto";
+            case "bank_transfer" -> "Pix / Transferência";
+            case "account_money" -> "Saldo Mercado Pago";
+            case "prepaid_card" -> "Cartão Pré-pago";
+            case "digital_currency" -> "Criptomoeda";
+            case "digital_wallet" -> "Carteira Digital";
+            default -> "Outro (" + paymentTypeId + ")";
+        };
     }
 }
