@@ -22,6 +22,11 @@ public class ReservaApiController {
     @Autowired private KitService kitService;
     @Autowired private UserService userService;
 
+    @GetMapping("/all")
+    public List<Reservation> getMyReservations() {
+        return reservationService.findAll();
+    }
+
     @GetMapping
     public List<Reservation> getMyReservations(@AuthenticationPrincipal UserDetails userDetails) {
         User user = userService.findByEmail(userDetails.getUsername()).orElseThrow();
