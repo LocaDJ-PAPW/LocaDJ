@@ -118,6 +118,18 @@ public class ReservationService {
         reservationRepository.save(reservation);
     }
 
+    public void canceled(long reservationId){
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new RuntimeException("Reserva não encontrado!"));
+        reservation.setStatus(Status.CANCELADA);
+        StatusLog statusLog = new StatusLog();
+        statusLog.setStatus(Status.CANCELADA);
+        statusLog.setDate(LocalDateTime.now());
+        reservation.getStatusLogs().add(statusLog);
+        statusLog.setReservation(reservation);
+        reservationRepository.save(reservation);
+    }
+
+
 
 
     public int activeReservations(){

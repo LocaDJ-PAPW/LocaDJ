@@ -5,6 +5,7 @@ public enum Status {
     CONFIRMADA,
     SAIU_PARA_ENTREGA,
     EM_ADAMENTO,
-    CONCLUIDA
+    CONCLUIDA,
+    CANCELADA
 
 }

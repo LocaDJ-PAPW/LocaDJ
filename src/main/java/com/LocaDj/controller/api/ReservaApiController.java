@@ -81,4 +81,10 @@ public class ReservaApiController {
         reservationService.completed(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}/cancel")
+    public ResponseEntity<Void> cancel(@PathVariable("id") long id) {
+        reservationService.canceled(id);
+        return ResponseEntity.noContent().build();
+    }
 }
