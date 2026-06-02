@@ -74,6 +74,7 @@ public class ReservationService {
 
     public void confirmReservation(long reservationId){
         Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new RuntimeException("Reserva não encontrado!"));
+        if (reservation.getStatus() == Status.CONFIRMADA) return;
         reservation.setStatus(Status.CONFIRMADA);
         reservation.getKit().setRents(reservation.getKit().getRents() + 1);
         StatusLog statusLog = new StatusLog();
@@ -86,6 +87,7 @@ public class ReservationService {
 
     public void LeftForDelivery(long reservationId){
         Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new RuntimeException("Reserva não encontrado!"));
+        if (reservation.getStatus() == Status.SAIU_PARA_ENTREGA) return;
         reservation.setStatus(Status.SAIU_PARA_ENTREGA);
         StatusLog statusLog = new StatusLog();
         statusLog.setStatus(Status.SAIU_PARA_ENTREGA);
@@ -97,6 +99,7 @@ public class ReservationService {
 
     public void InProgress(long reservationId){
         Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new RuntimeException("Reserva não encontrado!"));
+        if (reservation.getStatus() == Status.EM_ADAMENTO) return;
         reservation.setStatus(Status.EM_ADAMENTO);
         StatusLog statusLog = new StatusLog();
         statusLog.setStatus(Status.EM_ADAMENTO);
@@ -109,6 +112,7 @@ public class ReservationService {
 
     public void completed(long reservationId){
         Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new RuntimeException("Reserva não encontrado!"));
+        if (reservation.getStatus() == Status.CONCLUIDA) return;
         reservation.setStatus(Status.CONCLUIDA);
         StatusLog statusLog = new StatusLog();
         statusLog.setStatus(Status.CONCLUIDA);
@@ -120,6 +124,7 @@ public class ReservationService {
 
     public void canceled(long reservationId){
         Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new RuntimeException("Reserva não encontrado!"));
+        if (reservation.getStatus() == Status.CANCELADA) return;
         reservation.setStatus(Status.CANCELADA);
         StatusLog statusLog = new StatusLog();
         statusLog.setStatus(Status.CANCELADA);
