@@ -135,7 +135,13 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private Reservation createReservation(long userId, Kit kit, LocalDateTime start, LocalDateTime end, int daily, double total, Status status) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Usuário não encontrado com id: " + userId));;
+        User user = userRepository.findById(userId).orElseGet(() -> userRepository.findByEmail("admin@locadj.com").orElse(null));
+        if (user == null && !userRepository.findAll().isEmpty()) {
+            user = userRepository.findAll().get(0);
+        }
+        if (user == null) {
+            throw new RuntimeException("Nenhum usuário encontrado no banco de dados para criar a reserva.");
+        }
         Reservation reservation = new Reservation();
         reservation.setUser(user);
         reservation.setKit(kit);
