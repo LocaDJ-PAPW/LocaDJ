@@ -47,4 +47,26 @@ public class UserApiController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @PostMapping("/sync-firebase")
+    public ResponseEntity<?> syncFirebaseUsers() {
+        try {
+            com.google.firebase.auth.ListUsersPage page = com.google.firebase.auth.FirebaseAuth.getInstance().listUsers(null);
+            int count = 0;
+            for (com.google.firebase.auth.ExportedUserRecord userRecord : page.iterateAll()) {
+                if (userRecord.getEmail() != null && userService.findByEmail(userRecord.getEmail()).isEmpty()) {
+                    User newUser = new User();
+                    newUser.setEmail(userRecord.getEmail());
+                    newUser.setName(userRecord.getDisplayName() != null && !userRecord.getDisplayName().isEmpty() ? userRecord.getDisplayName() : "Usuário Firebase");
+                    newUser.setPassword("firebase_sync_default");
+                    newUser.setRole(User.Role.CLIENT);
+                    userService.saveUser(newUser);
+                    count++;
+                }
+            }
+            return ResponseEntity.ok(Map.of("message", "Usuários sincronizados com sucesso", "novos_usuarios", count));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", e.getMessage()));
+        }
+    }
 }

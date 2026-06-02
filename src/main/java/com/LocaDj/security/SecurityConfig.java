@@ -79,6 +79,7 @@ public class SecurityConfig {
 
 
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/users/sync-firebase").permitAll()
                         .requestMatchers("/api/v1/webhooks/mercadopago").permitAll()
 
                         // Rotas Web/Estáticas
