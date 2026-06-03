@@ -146,7 +146,7 @@ public class MercadoPagoClient {
             String tipoOriginal = paymentMercadoPago.getPaymentTypeId();
 
             String tipoTraduzido = traduzirTipoPagamento(tipoOriginal);
-            reservation.setPaymentMethod(tipoTraduzido);
+            reservationService.updatePaymentMethod(reservation.getId(), tipoTraduzido);
         }
 
         String formattedDate = null;

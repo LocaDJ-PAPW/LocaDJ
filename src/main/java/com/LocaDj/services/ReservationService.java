@@ -137,6 +137,12 @@ public class ReservationService {
 
 
 
+    public void updatePaymentMethod(long reservationId, String paymentMethod) {
+        Reservation reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new RuntimeException("Reserva não encontrado!"));
+        reservation.setPaymentMethod(paymentMethod);
+        reservationRepository.save(reservation);
+    }
+
     public int activeReservations(){
         return reservationRepository.countByStatus(Status.CONFIRMADA);
 
