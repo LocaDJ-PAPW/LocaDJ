@@ -44,4 +44,7 @@ public class Reservation {
 
     private Status status;
 
+    @Column(length = 500)
+    private String deliveryAddress;
+
 }

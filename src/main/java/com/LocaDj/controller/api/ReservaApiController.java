@@ -59,6 +59,12 @@ public class ReservaApiController {
         res.setUser(user);
         res.setStartDateTime(start);
         res.setEndDateTime(end);
+        if (form.getDeliveryAddress() != null) {
+            res.setDeliveryAddress(form.getDeliveryAddress());
+        }
+        if (form.getPaymentMethod() != null) {
+            res.setPaymentMethod(form.getPaymentMethod());
+        }
 
         Reservation saved = reservationService.save(res);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);

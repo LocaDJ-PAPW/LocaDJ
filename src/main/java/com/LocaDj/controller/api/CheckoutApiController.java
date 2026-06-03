@@ -52,10 +52,14 @@ public class CheckoutApiController {
             CreatePreferenceRequestDTO.PayerDTO payer = new CreatePreferenceRequestDTO.PayerDTO(loggedUser.getName(), loggedUser.getEmail());
             String baseUrl = "https://locadj.onrender.com";
 
+            String successUrl = baseUrl + "/api/checkout/redirect?target=" + paymentRequestDto.getSuccessUrl();
+            String failureUrl = baseUrl + "/api/checkout/redirect?target=" + paymentRequestDto.getFailureUrl();
+            String pendingUrl = baseUrl + "/api/checkout/redirect?target=" + paymentRequestDto.getPendingUrl();
+
             CreatePreferenceRequestDTO.BackUrlsDTO backUrlsDTO = new CreatePreferenceRequestDTO.BackUrlsDTO(
-                    paymentRequestDto.getSuccessUrl(), // A URL gerada no Expo do usuario de sucesso!
-                    paymentRequestDto.getFailureUrl(), // A do expo de falha!
-                    paymentRequestDto.getPendingUrl()  // A do expo pendente!
+                    successUrl,
+                    failureUrl,
+                    pendingUrl
             );
 
             CreatePreferenceRequestDTO.ItemDTO item = new CreatePreferenceRequestDTO.ItemDTO(
@@ -119,5 +123,12 @@ public class CheckoutApiController {
         Map<String, Long> response = new HashMap<>();
         response.put("reservationId", id);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/redirect")
+    public ResponseEntity<Void> redirectApp(@RequestParam String target) {
+        return ResponseEntity.status(org.springframework.http.HttpStatus.FOUND)
+                .location(java.net.URI.create(target))
+                .build();
     }
 }
